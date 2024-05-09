@@ -1,7 +1,7 @@
 # Read Me First
 The following was discovered as part of building this project:
 
-* The original package name 'com.mcarchieve.minecraft-archieve' is invalid and this project uses 'com.mcarchieve.minecraftarchieve' instead.
+* The original package name 'com.mcarchieve.minecraft-archieve' is invalid and this project uses 'com.mcarchieve.mcarchieve' instead.
 
 # Getting Started
 

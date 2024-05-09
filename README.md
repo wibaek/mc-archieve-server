@@ -1,4 +1,4 @@
-# minecraft-archieve-server
+# mc-archieve-server
 Minecraft Archive + Achieve
 
 Minecraft Archieve app backend repository

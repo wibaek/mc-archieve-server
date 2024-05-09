@@ -1,10 +1,10 @@
-package com.mcarchieve.minecraftarchieve;
+package com.mcarchieve.mcarchieve;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MinecraftArchieveApplicationTests {
+class McArchieveApplicationTests {
 
 	@Test
 	void contextLoads() {
