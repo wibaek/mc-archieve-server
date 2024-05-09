@@ -19,5 +19,5 @@ services:
       dockerfile: Dockerfile
     container_name: spring
     command: java -jar /app.jar
-    expose:
-      - "8080"
+    ports:
+      - "8080:8080"
