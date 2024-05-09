@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url:
+    username: dbuser
+    password: dbpassword
+
+  security:
+    user:
+      name: admin
+      password: password
