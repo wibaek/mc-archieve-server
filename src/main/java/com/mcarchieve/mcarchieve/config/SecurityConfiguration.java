@@ -37,7 +37,10 @@ public class SecurityConfiguration {
                         session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(
-                        auth -> auth.anyRequest().permitAll()
+                        auth -> auth
+//                                .requestMatchers("/login").permitAll()
+//                                .anyRequest().authenticated()
+                                .anyRequest().permitAll()
                 );
 
         return http.build();

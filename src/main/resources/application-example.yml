@@ -8,3 +8,7 @@ spring:
     user:
       name: admin
       password: password
+
+service:
+  jwt:
+    secret: secret

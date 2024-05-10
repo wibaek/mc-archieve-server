@@ -20,6 +20,11 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
     defer-datasource-initialization: true
 
+service:
+  jwt:
+    expiration: 900000 # 15 minutes
+
+
 --- # prod
 spring:
   config:
