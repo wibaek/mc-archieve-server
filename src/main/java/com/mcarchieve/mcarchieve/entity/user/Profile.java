@@ -15,6 +15,15 @@ public class Profile {
 
     private String profileImageUrl;
 
+    public Profile() {
+    }
+
+    public Profile(Long id, String nickname, String profileImageUrl) {
+        this.id = id;
+        this.nickname = nickname;
+        this.profileImageUrl = profileImageUrl;
+    }
+
     public Long getId() {
         return id;
     }
