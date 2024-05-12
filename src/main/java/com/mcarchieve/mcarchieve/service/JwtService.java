@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -27,8 +28,11 @@ public class JwtService {
     @Value("${service.jwt.expiration}")
     private Long expiration;
 
-    public JwtService(@Value("${service.jwt.secret}") String secretKey) {
+    CustomUserDetailsService customUserDetailsService;
+
+    public JwtService(@Value("${service.jwt.secret}") String secretKey, CustomUserDetailsService customUserDetailsService) {
         this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64URL.decode(secretKey));
+        this.customUserDetailsService = customUserDetailsService;
     }
 
     public String createJwt(Authentication authentication) {
@@ -50,23 +54,24 @@ public class JwtService {
         return jwt;
     }
 
-//    public Authentication getAuthentication(String token) {
-//        Claims claims = Jwts
-//                .parser()
-//                .setSigningKey(secretKey)
-//                .build()
-//                .parseClaimsJws(token)
-//                .getBody();
-//
+    public Authentication getAuthentication(String token) {
+        Claims claims = Jwts
+                .parser()
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
 //        Collection<? extends GrantedAuthority> authorities =
 //                Arrays.stream(claims.get("authorities").toString().split(","))
 //                        .map(SimpleGrantedAuthority::new)
 //                        .collect(Collectors.toList());
-//
+
 //        User principal = new User(claims.getSubject(), "", authorities);
-//
-//        return new UsernamePasswordAuthenticationToken(principal, token, authorities);
-//    }
+        UserDetails userDetails = customUserDetailsService.loadUserByUsername(claims.getSubject());
+
+        return new UsernamePasswordAuthenticationToken(userDetails, token, userDetails.getAuthorities());
+    }
 
     public String createJwtByEmail(String email) {
         String jwt = Jwts.builder()

@@ -1,5 +1,6 @@
 package com.mcarchieve.mcarchieve.config;
 
+import com.mcarchieve.mcarchieve.service.JwtService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,6 +11,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -19,10 +21,13 @@ import java.util.Arrays;
 @Configuration
 public class SecurityConfiguration {
 
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    public SecurityConfiguration(JwtAuthenticationFilter jwtAuthenticationFilter) {
+    private JwtService jwtService;
+
+    public SecurityConfiguration(JwtAuthenticationFilter jwtAuthenticationFilter, JwtService jwtService) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.jwtService = jwtService;
     }
 
     @Bean
@@ -56,7 +61,8 @@ public class SecurityConfiguration {
                                 .requestMatchers("/validate").permitAll()
                                 .anyRequest().authenticated()
 //                                .anyRequest().permitAll()
-                );
+                )
+                .addFilterBefore(new JwtAuthenticationFilter(jwtService), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
