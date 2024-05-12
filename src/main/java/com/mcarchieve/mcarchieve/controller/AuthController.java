@@ -1,34 +1,54 @@
 package com.mcarchieve.mcarchieve.controller;
 
+import com.mcarchieve.mcarchieve.dto.LoginDto;
+import com.mcarchieve.mcarchieve.dto.SignupDto;
+import com.mcarchieve.mcarchieve.entity.user.User;
 import com.mcarchieve.mcarchieve.service.JwtService;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
+import com.mcarchieve.mcarchieve.service.UserService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Date;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class AuthController {
 
     JwtService jwtService;
 
-    public AuthController(JwtService jwtService) {
+    UserService userService;
+
+    AuthenticationManagerBuilder authenticationManagerBuilder;
+
+    public AuthController(JwtService jwtService, UserService userService, AuthenticationManagerBuilder authenticationManagerBuilder) {
         this.jwtService = jwtService;
+        this.userService = userService;
+        this.authenticationManagerBuilder = authenticationManagerBuilder;
     }
 
     @PostMapping("/login")
-    public String authenticate(@RequestParam("email") String email) {
+    public String authenticate(@RequestBody LoginDto loginDto) {
 
-        return jwtService.createJwt(email);
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());
+
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String jwt = jwtService.createJwt(authentication);
+
+        return jwt;
+    }
+
+    @PostMapping("/signup")
+    public ResponseEntity<User> basicSignup(@RequestBody SignupDto signupDto) {
+
+        return ResponseEntity.ok(userService.signup(signupDto));
     }
 
     @PostMapping("/validate")
-    public Jws<Claims> validateToken(@RequestParam("jwt") String jwt){
+    public boolean validateToken(@RequestParam("jwt") String jwt) {
         return jwtService.isValidToken(jwt);
     }
 
