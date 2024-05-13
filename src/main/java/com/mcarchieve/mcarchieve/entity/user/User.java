@@ -32,15 +32,15 @@ public class User {
     private String email;
 
     @OneToOne
-    @JoinColumn(name="password_id", nullable = true)
+    @JoinColumn(name = "password_id", nullable = true)
     private Password password;
 
     @OneToOne
-    @JoinColumn(name="profile_id", nullable = false)
+    @JoinColumn(name = "profile_id", nullable = false)
     private Profile profile;
 
     @OneToOne
-    @JoinColumn(name="player_id", nullable = true)
+    @JoinColumn(name = "player_id", nullable = true)
     private Player player;
 
     @Column(nullable = false)
@@ -73,6 +73,14 @@ public class User {
 
     public void setPassword(Password password) {
         this.password = password;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
     public Player getPlayer() {
