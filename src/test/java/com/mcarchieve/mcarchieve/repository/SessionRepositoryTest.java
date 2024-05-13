@@ -1,0 +1,89 @@
+package com.mcarchieve.mcarchieve.repository;
+
+import jakarta.persistence.EntityManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import com.mcarchieve.mcarchieve.entity.session.Server;
+import com.mcarchieve.mcarchieve.entity.session.Session;
+import com.mcarchieve.mcarchieve.entity.user.User;
+import org.springframework.test.context.ActiveProfiles;
+
+import java.time.Instant;
+import java.util.Optional;
+
+
+@DataJpaTest
+@ActiveProfiles("test")
+class SessionRepositoryTest {
+
+    @Autowired
+    private SessionRepository sessionRepository;
+
+    @Test
+    public void testSaveSession() {
+        User owner = new User();
+        Server server = new Server();
+
+        Session session = new Session();
+        session.setName("Session1");
+        session.setOwner(owner);
+        session.setServer(server);
+        session.setStartDate(Instant.now());
+        session.setEndDate(Instant.now().plusSeconds(3600));
+
+        Session savedSession = sessionRepository.save(session);
+
+        assertNotNull(savedSession.getId());
+        assertEquals("Session1", savedSession.getName());
+        assertNotNull(savedSession.getOwner());
+        assertNotNull(savedSession.getServer());
+        assertNotNull(savedSession.getStartDate());
+        assertNotNull(savedSession.getEndDate());
+    }
+
+    @Test
+    public void testFindSessionById() {
+        User owner = new User();
+        Server server = new Server();
+
+        Session session = new Session(null, "Session1", owner, server, Instant.now(), Instant.now().plusSeconds(1800));
+        session = sessionRepository.save(session);
+
+        Optional<Session> foundSession = sessionRepository.findById(session.getId());
+
+        assertTrue(foundSession.isPresent());
+        assertEquals("Session1", foundSession.get().getName());
+    }
+
+    @Test
+    public void testDeleteSession() {
+        User owner = new User();
+        Server server = new Server();
+
+        Session session = new Session(null, "Session1", owner, server, Instant.now(), Instant.now().plusSeconds(7200));
+        session = sessionRepository.save(session);
+
+        sessionRepository.delete(session);
+
+        Optional<Session> deletedSession = sessionRepository.findById(session.getId());
+        assertFalse(deletedSession.isPresent());
+    }
+
+    @Test
+    public void testUpdateSession() {
+        User owner = new User();
+        Server server = new Server();
+
+        Session session = new Session(null, "Session1", owner, server, Instant.now(), Instant.now().plusSeconds(7200));
+        session = sessionRepository.save(session);
+
+        session.setName("Session2");
+        Session updatedSession = sessionRepository.save(session);
+
+        assertEquals("Session2", updatedSession.getName());
+    }
+}
