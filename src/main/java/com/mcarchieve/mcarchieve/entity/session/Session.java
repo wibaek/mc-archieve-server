@@ -3,20 +3,11 @@ package com.mcarchieve.mcarchieve.entity.session;
 import com.mcarchieve.mcarchieve.entity.user.User;
 import jakarta.persistence.*;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Entity
 public class Session {
-
-    public Session() {
-    }
-
-    public Session(Long id, String name, User owner, Server server) {
-        this.id = id;
-        this.name = name;
-        this.owner = owner;
-        this.server = server;
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,9 +24,21 @@ public class Session {
     @JoinColumn(name = "server_id", nullable = true)
     private Server server;
 
-    private LocalDateTime startDate;
+    private Instant startDate;
 
-    private LocalDateTime endDate;
+    private Instant endDate;
+
+    public Session() {
+    }
+
+    public Session(Long id, String name, User owner, Server server, Instant startDate, Instant endDate) {
+        this.id = id;
+        this.name = name;
+        this.owner = owner;
+        this.server = server;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
 
     public Long getId() {
         return id;
@@ -69,19 +72,19 @@ public class Session {
         this.server = server;
     }
 
-    public LocalDateTime getStartDate() {
+    public Instant getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDateTime startDate) {
+    public void setStartDate(Instant startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDateTime getEndDate() {
+    public Instant getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDateTime endDate) {
+    public void setEndDate(Instant endDate) {
         this.endDate = endDate;
     }
 }

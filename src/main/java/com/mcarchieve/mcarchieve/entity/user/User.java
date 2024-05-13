@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -14,7 +14,7 @@ public class User {
     public User() {
     }
 
-    public User(Long id, String email, Password password, Profile profile, Player player, LoginType loginType, LocalDateTime joinDate) {
+    public User(Long id, String email, Password password, Profile profile, Player player, LoginType loginType, Instant joinDate) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -49,7 +49,7 @@ public class User {
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    private LocalDateTime joinDate;
+    private Instant joinDate;
 
     public Long getId() {
         return id;
@@ -99,11 +99,11 @@ public class User {
         this.loginType = loginType;
     }
 
-    public LocalDateTime getJoinDate() {
+    public Instant getJoinDate() {
         return joinDate;
     }
 
-    public void setJoinDate(LocalDateTime joinDate) {
+    public void setJoinDate(Instant joinDate) {
         this.joinDate = joinDate;
     }
 }

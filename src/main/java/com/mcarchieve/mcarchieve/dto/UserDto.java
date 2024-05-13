@@ -8,6 +8,7 @@ import com.mcarchieve.mcarchieve.type.LoginType;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 public class UserDto {
@@ -15,10 +16,10 @@ public class UserDto {
     private Long id;
     private String email;
     private LoginType loginType;
-    private LocalDateTime joinDate;
+    private Instant joinDate;
     private ProfileDto profile;
 
-    public UserDto(Long id, String email, LoginType loginType, LocalDateTime joinDate, ProfileDto profile) {
+    public UserDto(Long id, String email, LoginType loginType, Instant joinDate, ProfileDto profile) {
         this.id = id;
         this.email = email;
         this.loginType = loginType;
@@ -60,11 +61,11 @@ public class UserDto {
         this.loginType = loginType;
     }
 
-    public LocalDateTime getJoinDate() {
+    public Instant getJoinDate() {
         return joinDate;
     }
 
-    public void setJoinDate(LocalDateTime joinDate) {
+    public void setJoinDate(Instant joinDate) {
         this.joinDate = joinDate;
     }
 
