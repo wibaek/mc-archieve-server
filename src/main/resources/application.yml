@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: prod
+    active: test
     group:
       prod:
         - prod
@@ -22,7 +22,7 @@ service:
 spring:
   config:
     activate:
-      on-profile: test
+      on-profile: prod
 
   jpa:
     hibernate:
