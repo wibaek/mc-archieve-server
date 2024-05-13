@@ -22,13 +22,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/sessions")
 public class SessionResource {
+
     private SessionRepository sessionRepository;
 
     private StoryService storyService;
 
     private UserRepository userRepository;
 
-    public SessionResource(SessionRepository sessionRepository, StoryRepository storyRepository, StoryService storyService, UserRepository userRepository) {
+    public SessionResource(SessionRepository sessionRepository, StoryService storyService, UserRepository userRepository) {
         this.sessionRepository = sessionRepository;
         this.storyService = storyService;
         this.userRepository = userRepository;

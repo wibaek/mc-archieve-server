@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import com.mcarchieve.mcarchieve.repository.UserRepository;
+import com.mcarchieve.mcarchieve.service.StoryService;
 import org.junit.jupiter.api.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,18 +36,23 @@ public class SessionResourceTest {
     private MockMvc mockMvc;
 
     @MockBean
+    private JwtService jwtService;
+
+    @MockBean
     private SessionRepository sessionRepository;
 
     @MockBean
-    private JwtService jwtService;
+    private StoryService storyService;
+
+    @MockBean
+    private UserRepository userRepository;
 
     @Autowired
     ObjectMapper objectMapper;
 
     @Test
     @WithMockUser
-    @DisplayName("세션 생성 테스트")
-    void reateSessionTest() throws Exception {
+    void createSessionTest() throws Exception {
         SessionDto sessionDto = new SessionDto();
         sessionDto.setName("Test Session");
 
