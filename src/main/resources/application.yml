@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: test
+    active: prod
     group:
       prod:
         - prod
@@ -22,7 +22,7 @@ service:
 spring:
   config:
     activate:
-      on-profile: prod
+      on-profile: test
 
   jpa:
     hibernate:
@@ -68,3 +68,13 @@ spring:
 service:
   jwt:
     secret: secret-comes-here-needs-to-be-very-long-maybe-about-100-characters-for-hsa-512-key-generation-idk
+
+cloud:
+  aws:
+    credentials:
+      access-key: access-key
+      secret-key: secret-key
+    s3:
+      bucket: bucket-name
+    region:
+      static: ap-northeast-2
