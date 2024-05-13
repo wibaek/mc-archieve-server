@@ -1,7 +1,7 @@
 package com.mcarchieve.mcarchieve.service;
 
-import com.mcarchieve.mcarchieve.dto.SignupDto;
-import com.mcarchieve.mcarchieve.dto.UserDto;
+import com.mcarchieve.mcarchieve.dto.user.SignupDto;
+import com.mcarchieve.mcarchieve.dto.user.UserDto;
 import com.mcarchieve.mcarchieve.entity.user.Password;
 import com.mcarchieve.mcarchieve.entity.user.Profile;
 import com.mcarchieve.mcarchieve.entity.user.User;

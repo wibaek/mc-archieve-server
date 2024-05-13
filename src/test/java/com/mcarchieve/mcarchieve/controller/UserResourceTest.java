@@ -1,7 +1,7 @@
 package com.mcarchieve.mcarchieve.controller;
 
-import com.mcarchieve.mcarchieve.dto.ProfileDto;
-import com.mcarchieve.mcarchieve.dto.UserDto;
+import com.mcarchieve.mcarchieve.dto.user.ProfileDto;
+import com.mcarchieve.mcarchieve.dto.user.UserDto;
 import com.mcarchieve.mcarchieve.service.UserService;
 import com.mcarchieve.mcarchieve.type.LoginType;
 import org.junit.jupiter.api.DisplayName;
@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.security.Principal;

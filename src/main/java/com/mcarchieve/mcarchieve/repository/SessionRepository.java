@@ -1,8 +1,9 @@
 package com.mcarchieve.mcarchieve.repository;
 
-import com.mcarchieve.mcarchieve.entity.session.Session;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.mcarchieve.mcarchieve.entity.session.Session;
 
 @Repository
 public interface SessionRepository extends JpaRepository<Session, Long>{

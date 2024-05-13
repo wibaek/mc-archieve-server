@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.mcarchieve.mcarchieve.entity.session.Session;
 import com.mcarchieve.mcarchieve.repository.SessionRepository;
-import com.mcarchieve.mcarchieve.dto.SessionDto;
+import com.mcarchieve.mcarchieve.dto.session.SessionDto;
 import com.mcarchieve.mcarchieve.service.JwtService;
 
 @WebMvcTest(SessionResource.class)
