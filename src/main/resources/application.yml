@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: test
+    active: prod
     group:
       prod:
         - prod
@@ -9,11 +9,20 @@ spring:
         - dev
         - example
       test:
-        - dev
         - test
 
   application:
     name: mc-archieve
+
+service:
+  jwt:
+    expiration: 900000 # 15 minutes
+
+--- # prod
+spring:
+  config:
+    activate:
+      on-profile: prod
 
   jpa:
     hibernate:
@@ -23,20 +32,39 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
     defer-datasource-initialization: true
 
-service:
-  jwt:
-    expiration: 900000 # 15 minutes
-
-
---- # prod
-spring:
-  config:
-    activate:
-      on-profile: prod
-
 --- # dev
 spring:
   config:
     activate:
       on-profile: dev
 
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+    defer-datasource-initialization: true
+
+--- # test
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  datasource:
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: password
+
+  security:
+    user:
+      name: admin
+      password: password
+
+service:
+  jwt:
+    secret: secret-comes-here-needs-to-be-very-long-maybe-about-100-characters-for-hsa-512-key-generation-idk
