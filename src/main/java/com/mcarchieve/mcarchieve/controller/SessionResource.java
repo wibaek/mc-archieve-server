@@ -1,10 +1,15 @@
 package com.mcarchieve.mcarchieve.controller;
 
+import com.mcarchieve.mcarchieve.dto.SessionDto;
 import com.mcarchieve.mcarchieve.entity.session.Session;
 import com.mcarchieve.mcarchieve.repository.SessionRepository;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -17,10 +22,18 @@ public class SessionResource {
     }
 
     @PostMapping
-    public ResponseEntity<Session> createSession(@RequestBody Session session) {
+    public ResponseEntity<Session> createSession(@Valid @RequestBody SessionDto sessionDto) {
+        Session session = sessionDto.toEntity();
         session.setId(null);
         Session savedSession = sessionRepository.save(session);
-        return ResponseEntity.ok(savedSession);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(savedSession.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).body(savedSession);
     }
 
     @GetMapping
