@@ -27,3 +27,5 @@ application.yml에서 실행환경에 따라 spring.profiles.active를 변경해
 - prod: production 환경
 - dev: development 환경
 - test: github actions에서 사용하는 테스트 환경
+
+prod 사용시 application-example.yml을 참고하여 application-secret.yml을 작성해야 합니다.
