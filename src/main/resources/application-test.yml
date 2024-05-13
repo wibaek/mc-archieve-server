@@ -1,8 +1,9 @@
 spring:
   datasource:
-    url:
-    username: dbuser
-    password: dbpassword
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
 
   security:
     user:

@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: prod
+    active: test
     group:
       prod:
         - prod
@@ -8,6 +8,9 @@ spring:
       dev:
         - dev
         - example
+      test:
+        - dev
+        - test
 
   application:
     name: mc-archieve
