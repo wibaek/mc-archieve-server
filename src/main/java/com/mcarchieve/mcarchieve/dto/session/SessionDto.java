@@ -1,4 +1,4 @@
-package com.mcarchieve.mcarchieve.dto;
+package com.mcarchieve.mcarchieve.dto.session;
 
 import com.mcarchieve.mcarchieve.entity.session.Session;
 

@@ -1,4 +1,4 @@
-package com.mcarchieve.mcarchieve.dto;
+package com.mcarchieve.mcarchieve.dto.user;
 
 public class LoginDto {
 

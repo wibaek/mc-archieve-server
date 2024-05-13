@@ -1,15 +1,10 @@
-package com.mcarchieve.mcarchieve.dto;
+package com.mcarchieve.mcarchieve.dto.user;
 
-import com.mcarchieve.mcarchieve.entity.user.Password;
-import com.mcarchieve.mcarchieve.entity.user.Player;
-import com.mcarchieve.mcarchieve.entity.user.Profile;
+import com.mcarchieve.mcarchieve.dto.user.ProfileDto;
 import com.mcarchieve.mcarchieve.entity.user.User;
 import com.mcarchieve.mcarchieve.type.LoginType;
-import jakarta.persistence.*;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 
 public class UserDto {
 
