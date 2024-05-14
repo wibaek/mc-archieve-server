@@ -35,8 +35,8 @@ public class S3Service {
 
         s3Client.putObject(bucketName, path, file.getInputStream(), metadata);
 
-        String uploadPath = s3Client.getUrl(bucketName, path).toString();
-        Image image = new Image(null, uploadPath, file.getOriginalFilename());
+//        String uploadPath = s3Client.getUrl(bucketName, path).toString();
+        Image image = new Image(null, path, file.getOriginalFilename());
         return imageRepository.save(image);
     }
 }

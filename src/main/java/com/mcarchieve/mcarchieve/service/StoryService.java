@@ -11,6 +11,7 @@ import com.mcarchieve.mcarchieve.repository.SessionRepository;
 import com.mcarchieve.mcarchieve.repository.StoryRepository;
 import com.mcarchieve.mcarchieve.repository.UserRepository;
 import com.mcarchieve.mcarchieve.type.FileUploadPath;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,6 +26,9 @@ public class StoryService {
     private SessionRepository sessionRepository;
 
     private S3Service s3Service;
+
+    @Value("${cloud.aws.cloudfront.uri}")
+    private String imageRepositoryUri;
 
     public StoryService(StoryRepository storyRepository,
                         UserRepository userRepository,
@@ -41,7 +45,7 @@ public class StoryService {
         List<StoryResponseDto> storyResponseDtos = new java.util.ArrayList<>();
 
         for (Story story : stories) {
-            StoryResponseDto storyResponseDto = new StoryResponseDto(story);
+            StoryResponseDto storyResponseDto = new StoryResponseDto(story, imageRepositoryUri);
             storyResponseDtos.add(storyResponseDto);
         }
 

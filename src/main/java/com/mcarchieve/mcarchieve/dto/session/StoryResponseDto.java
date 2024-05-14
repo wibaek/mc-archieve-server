@@ -1,7 +1,7 @@
 package com.mcarchieve.mcarchieve.dto.session;
 
 import com.mcarchieve.mcarchieve.entity.session.Story;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.beans.factory.annotation.Value;
 
 public class StoryResponseDto {
     private Long id;
@@ -21,11 +21,11 @@ public class StoryResponseDto {
         this.sessionId = sessionId;
     }
 
-    public StoryResponseDto(Story story) {
+    public StoryResponseDto(Story story, String imageRepositoryUri) {
         this.id = story.getId();
         this.description = story.getDescription();
         if (story.getImage() != null){
-            this.imageUri = story.getImage().getPath();
+            this.imageUri = imageRepositoryUri + story.getImage().getPath();
         }
         this.createdById = story.getCreatedBy().getId();
         this.sessionId = story.getSession().getId();

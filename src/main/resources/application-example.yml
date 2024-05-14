@@ -22,3 +22,5 @@ cloud:
       bucket: bucket-name
     region:
       static: ap-northeast-2
+    cloudfront:
+      url: ~
