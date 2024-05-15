@@ -45,7 +45,7 @@ public class StoryService {
         List<StoryResponseDto> storyResponseDtos = new java.util.ArrayList<>();
 
         for (Story story : stories) {
-            StoryResponseDto storyResponseDto = new StoryResponseDto(story, imageRepositoryUri);
+            StoryResponseDto storyResponseDto = StoryResponseDto.fromEntity(story, imageRepositoryUri);
             storyResponseDtos.add(storyResponseDto);
         }
 
@@ -53,7 +53,7 @@ public class StoryService {
     }
 
 
-    public Story createStory(StoryRequestDto storyRequestDto) throws IOException {
+    public StoryResponseDto createStory(StoryRequestDto storyRequestDto) throws IOException {
         Story story = new Story();
         User createdUser = userRepository.findById(storyRequestDto.getCreatedById()).orElseThrow(() -> new RuntimeException("User not found"));
         Session session = sessionRepository.findById(storyRequestDto.getSessionId()).orElseThrow(() -> new RuntimeException("Session not found"));
@@ -77,6 +77,8 @@ public class StoryService {
         story.setCreatedBy(createdUser);
         story.setSession(session);
 
-        return storyRepository.save(story);
+        story = storyRepository.save(story);
+
+        return StoryResponseDto.fromEntity(story, imageRepositoryUri);
     }
 }

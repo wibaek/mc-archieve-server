@@ -5,7 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import com.mcarchieve.mcarchieve.dto.session.SessionResponseDto;
 import com.mcarchieve.mcarchieve.repository.UserRepository;
+import com.mcarchieve.mcarchieve.service.SessionService;
 import com.mcarchieve.mcarchieve.service.StoryService;
 import org.junit.jupiter.api.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.mcarchieve.mcarchieve.entity.session.Session;
 import com.mcarchieve.mcarchieve.repository.SessionRepository;
-import com.mcarchieve.mcarchieve.dto.session.SessionDto;
+import com.mcarchieve.mcarchieve.dto.session.SessionRequestDto;
 import com.mcarchieve.mcarchieve.service.JwtService;
 
 @WebMvcTest(SessionResource.class)
@@ -42,6 +44,9 @@ public class SessionResourceTest {
     private SessionRepository sessionRepository;
 
     @MockBean
+    private SessionService sessionService;
+
+    @MockBean
     private StoryService storyService;
 
     @MockBean
@@ -53,15 +58,12 @@ public class SessionResourceTest {
     @Test
     @WithMockUser
     void createSessionTest() throws Exception {
-        SessionDto sessionDto = new SessionDto();
+        SessionRequestDto sessionDto = new SessionRequestDto();
         sessionDto.setName("Test Session");
 
-        Session session = sessionDto.toEntity();
-        Session savedSession = new Session();
-        savedSession.setId(1L);
-        savedSession.setName(session.getName());
+        SessionResponseDto createdSessionDto = SessionResponseDto.builder().id(1L).name("Test Session").build();
         // when
-        when(sessionRepository.save(any(Session.class))).thenReturn(savedSession);
+        when(sessionService.createSession(any(SessionRequestDto.class))).thenReturn(createdSessionDto);
 
         ResultActions actions =
                 mockMvc.perform(post("/sessions")
@@ -73,10 +75,7 @@ public class SessionResourceTest {
         // then
         actions
                 .andExpect(status().isCreated())
-//                .andExpect(header().string("Location", "http://localhost/sessions/1"))
-                .andExpect(content().json(objectMapper.writeValueAsString(savedSession)));
-
-        verify(sessionRepository).save(any(Session.class));
+                .andExpect(content().json(objectMapper.writeValueAsString(createdSessionDto)));
     }
 
     @Test

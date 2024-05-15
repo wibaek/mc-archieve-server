@@ -1,14 +1,14 @@
 package com.mcarchieve.mcarchieve.controller;
 
-import com.mcarchieve.mcarchieve.dto.session.SessionDto;
+import com.mcarchieve.mcarchieve.dto.session.SessionRequestDto;
+import com.mcarchieve.mcarchieve.dto.session.SessionResponseDto;
 import com.mcarchieve.mcarchieve.dto.session.StoryRequestDto;
 import com.mcarchieve.mcarchieve.dto.session.StoryResponseDto;
 import com.mcarchieve.mcarchieve.entity.session.Session;
-import com.mcarchieve.mcarchieve.entity.session.Story;
 import com.mcarchieve.mcarchieve.entity.user.User;
 import com.mcarchieve.mcarchieve.repository.SessionRepository;
-import com.mcarchieve.mcarchieve.repository.StoryRepository;
 import com.mcarchieve.mcarchieve.repository.UserRepository;
+import com.mcarchieve.mcarchieve.service.SessionService;
 import com.mcarchieve.mcarchieve.service.StoryService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -25,29 +25,30 @@ public class SessionResource {
 
     private SessionRepository sessionRepository;
 
+    private SessionService sessionService;
+
     private StoryService storyService;
 
     private UserRepository userRepository;
 
-    public SessionResource(SessionRepository sessionRepository, StoryService storyService, UserRepository userRepository) {
+    public SessionResource(SessionRepository sessionRepository, SessionService sessionService, StoryService storyService, UserRepository userRepository) {
         this.sessionRepository = sessionRepository;
+        this.sessionService = sessionService;
         this.storyService = storyService;
         this.userRepository = userRepository;
     }
 
     @PostMapping
-    public ResponseEntity<Session> createSession(@Valid @RequestBody SessionDto sessionDto) {
-        Session session = sessionDto.toEntity();
-        session.setId(null);
-        Session savedSession = sessionRepository.save(session);
+    public ResponseEntity<SessionResponseDto> createSession(@Valid @RequestBody SessionRequestDto sessionDto) {
+        SessionResponseDto createdSessionDto = sessionService.createSession(sessionDto);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(savedSession.getId())
+                .buildAndExpand(createdSessionDto.getId())
                 .toUri();
 
-        return ResponseEntity.created(location).body(savedSession);
+        return ResponseEntity.created(location).body(createdSessionDto);
     }
 
     @GetMapping
@@ -83,15 +84,16 @@ public class SessionResource {
     public ResponseEntity<StoryResponseDto> createStory(StoryRequestDto storyRequestDto, Principal principal, @PathVariable Long id) {
         try {
             User user = userRepository.findByEmail(principal.getName()).orElseThrow(() -> new RuntimeException("User not found"));
+
             storyRequestDto.setCreatedById(user.getId());
             storyRequestDto.setSessionId(id);
-            Story story = storyService.createStory(storyRequestDto);
-            StoryResponseDto storyResponseDto = new StoryResponseDto(story.getId(), story.getDescription(), story.getImage().getPath(), story.getCreatedBy().getId(), story.getSession().getId());
+
+            StoryResponseDto storyResponseDto = storyService.createStory(storyRequestDto);
 
             URI location = ServletUriComponentsBuilder
                     .fromCurrentRequest()
                     .path("/{id}")
-                    .buildAndExpand(story.getId())
+                    .buildAndExpand(storyResponseDto.getId())
                     .toUri();
 
             return ResponseEntity.created(location).body(storyResponseDto);
