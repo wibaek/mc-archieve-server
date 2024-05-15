@@ -23,16 +23,13 @@ import java.util.List;
 @RequestMapping("/sessions")
 public class SessionResource {
 
-    private SessionRepository sessionRepository;
-
     private SessionService sessionService;
 
     private StoryService storyService;
 
     private UserRepository userRepository;
 
-    public SessionResource(SessionRepository sessionRepository, SessionService sessionService, StoryService storyService, UserRepository userRepository) {
-        this.sessionRepository = sessionRepository;
+    public SessionResource(SessionService sessionService, StoryService storyService, UserRepository userRepository) {
         this.sessionService = sessionService;
         this.storyService = storyService;
         this.userRepository = userRepository;
@@ -52,26 +49,24 @@ public class SessionResource {
     }
 
     @GetMapping
-    public ResponseEntity<List<Session>> getAllSessions() {
-        List<Session> sessions = sessionRepository.findAll();
+    public ResponseEntity<List<SessionResponseDto>> getAllSessions() {
+        List<SessionResponseDto> sessions = sessionService.findAllSessions();
         return ResponseEntity.ok(sessions);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Session> getSessionById(@PathVariable Long id) {
-        return sessionRepository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<SessionResponseDto> getSessionById(@PathVariable Long id) {
+        SessionResponseDto session = sessionService.findSessionById(id);
+        if (session == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(session);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteSession(@PathVariable Long id) {
-        return sessionRepository.findById(id)
-                .map(session -> {
-                    sessionRepository.deleteById(id);
-                    return ResponseEntity.noContent().build();
-                })
-                .orElse(ResponseEntity.notFound().build());
+        boolean isDeleted = sessionService.deleteSessionById(id);
+        return isDeleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 
     @GetMapping("/{id}/stories")

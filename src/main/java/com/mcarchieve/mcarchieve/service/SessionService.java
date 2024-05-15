@@ -1,11 +1,16 @@
 package com.mcarchieve.mcarchieve.service;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.mcarchieve.mcarchieve.entity.session.Session;
 import com.mcarchieve.mcarchieve.dto.session.SessionRequestDto;
 import com.mcarchieve.mcarchieve.dto.session.SessionResponseDto;
 import com.mcarchieve.mcarchieve.repository.SessionRepository;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class SessionService {
@@ -17,9 +22,30 @@ public class SessionService {
     }
 
     public SessionResponseDto createSession(SessionRequestDto sessionDto) {
-//        sessionDto.setId(null);
         Session session = sessionDto.toEntity();
         session = sessionRepository.save(session);
         return SessionResponseDto.fromEntity(session);
+    }
+
+    public List<SessionResponseDto> findAllSessions() {
+        List<Session> sessions = sessionRepository.findAll();
+        return sessions.stream()
+                .map(SessionResponseDto::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    public SessionResponseDto findSessionById(Long id) {
+        Session session = sessionRepository.findById(id).orElse(null);
+        return session != null ? SessionResponseDto.fromEntity(session) : null;
+    }
+
+    public boolean deleteSessionById(Long id) {
+        Optional<Session> session = sessionRepository.findById(id);
+        if (session.isPresent()) {
+            sessionRepository.delete(session.get());
+            return true;
+        } else {
+            return false;
+        }
     }
 }

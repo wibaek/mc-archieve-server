@@ -82,8 +82,9 @@ public class SessionResourceTest {
     @WithMockUser
     void getAllSessionsTest_success() throws Exception {
         List<Session> sessions = Arrays.asList(new Session(), new Session());
+        List<SessionResponseDto> sessionDtos = sessions.stream().map(SessionResponseDto::fromEntity).toList();
 
-        when(sessionRepository.findAll()).thenReturn(sessions);
+        when(sessionService.findAllSessions()).thenReturn(sessionDtos);
 
         ResultActions actions = mockMvc.perform(get("/sessions")
                 .accept(MediaType.APPLICATION_JSON)
@@ -92,7 +93,8 @@ public class SessionResourceTest {
         // then
         actions
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(sessions)));
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()").value(sessions.size()));
     }
 
     @Test
@@ -103,7 +105,7 @@ public class SessionResourceTest {
         Session session = new Session();
         session.setId(sessionId);
 
-        when(sessionRepository.findById(sessionId)).thenReturn(Optional.of(session));
+        when(sessionService.findSessionById(sessionId)).thenReturn(SessionResponseDto.fromEntity(session));
 
         // when
         ResultActions actions = mockMvc.perform(get("/sessions/{id}", sessionId)
@@ -113,7 +115,7 @@ public class SessionResourceTest {
         // then
         actions
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(session)));
+                .andExpect(jsonPath("$.id").value(sessionId));
     }
 
 
@@ -123,7 +125,7 @@ public class SessionResourceTest {
         // given
         Long nonExistentSessionId = 999L;
 
-        when(sessionRepository.findById(nonExistentSessionId)).thenReturn(Optional.empty());
+        when(sessionService.findSessionById(nonExistentSessionId)).thenReturn(null);
 
         // when
         ResultActions actions = mockMvc.perform(get("/sessions/{id}", nonExistentSessionId)
@@ -138,14 +140,13 @@ public class SessionResourceTest {
 
     @Test
     @WithMockUser
-    void deleteSessionTest() throws Exception {
+    void deleteSessionTest_success() throws Exception {
         // given
         Long sessionId = 1L;
         Session existingSession = new Session();
         existingSession.setId(sessionId);
 
-        when(sessionRepository.findById(sessionId)).thenReturn(Optional.of(existingSession));
-        doNothing().when(sessionRepository).deleteById(sessionId);
+        when(sessionService.deleteSessionById(sessionId)).thenReturn(true);
 
         // when
         ResultActions actions = mockMvc.perform(delete("/sessions/{id}", sessionId)
@@ -155,7 +156,6 @@ public class SessionResourceTest {
         // then
         actions
                 .andExpect(status().isNoContent());
-        verify(sessionRepository).deleteById(sessionId);
     }
 
     @Test
@@ -164,7 +164,7 @@ public class SessionResourceTest {
         // given
         Long nonExistentSessionId = 999L; // 존재하지 않는 세션 ID 설정
 
-        when(sessionRepository.existsById(nonExistentSessionId)).thenReturn(false);
+        when(sessionService.deleteSessionById(nonExistentSessionId)).thenReturn(false);
 
         // when
         ResultActions actions = mockMvc.perform(delete("/sessions/{id}", nonExistentSessionId)
