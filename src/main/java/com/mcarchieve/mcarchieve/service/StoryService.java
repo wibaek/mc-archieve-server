@@ -40,6 +40,12 @@ public class StoryService {
         this.s3Service = s3Service;
     }
 
+    public StoryResponseDto findStoryById(Long id) {
+        Story story = storyRepository.findById(id).orElseThrow(() -> new RuntimeException("Story not found"));
+
+        return StoryResponseDto.fromEntity(story, imageRepositoryUri);
+    }
+
     public List<StoryResponseDto> findStoriesBySessionId(Long id) {
         List<Story> stories = storyRepository.findBySessionId(id);
         List<StoryResponseDto> storyResponseDtos = new java.util.ArrayList<>();
@@ -51,7 +57,6 @@ public class StoryService {
 
         return storyResponseDtos;
     }
-
 
     public StoryResponseDto createStory(StoryRequestDto storyRequestDto) throws IOException {
         Story story = new Story();

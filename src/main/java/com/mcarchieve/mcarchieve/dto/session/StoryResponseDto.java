@@ -19,7 +19,7 @@ public class StoryResponseDto {
         return StoryResponseDto.builder()
                 .id(story.getId())
                 .description(story.getDescription())
-                .createdById(story.getCreatedBy().getId())
+                .createdById(story.getCreatedBy() != null ? story.getCreatedBy().getId() : null)
                 .sessionId(story.getSession().getId())
                 .imageUri(story.getImage() != null ? imageRepositoryUri + story.getImage().getPath() : null)
                 .build();

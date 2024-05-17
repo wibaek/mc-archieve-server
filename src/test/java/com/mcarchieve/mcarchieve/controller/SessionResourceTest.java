@@ -1,16 +1,13 @@
 package com.mcarchieve.mcarchieve.controller;
 
-
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
-import com.mcarchieve.mcarchieve.dto.session.SessionResponseDto;
-import com.mcarchieve.mcarchieve.repository.UserRepository;
-import com.mcarchieve.mcarchieve.service.SessionService;
-import com.mcarchieve.mcarchieve.service.StoryService;
 import org.junit.jupiter.api.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import static org.mockito.Mockito.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -21,7 +18,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -29,6 +25,10 @@ import com.mcarchieve.mcarchieve.entity.session.Session;
 import com.mcarchieve.mcarchieve.repository.SessionRepository;
 import com.mcarchieve.mcarchieve.dto.session.SessionRequestDto;
 import com.mcarchieve.mcarchieve.service.JwtService;
+import com.mcarchieve.mcarchieve.dto.session.SessionResponseDto;
+import com.mcarchieve.mcarchieve.repository.UserRepository;
+import com.mcarchieve.mcarchieve.service.SessionService;
+import com.mcarchieve.mcarchieve.service.StoryService;
 
 @WebMvcTest(SessionResource.class)
 @ActiveProfiles("test")
