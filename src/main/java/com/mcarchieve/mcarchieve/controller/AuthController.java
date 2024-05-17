@@ -27,7 +27,7 @@ public class AuthController {
         this.authenticationManagerBuilder = authenticationManagerBuilder;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/v1/login")
     public String authenticate(@RequestBody LoginDto loginDto) {
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());
@@ -41,13 +41,13 @@ public class AuthController {
         return jwt;
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/v1/signup")
     public ResponseEntity<User> basicSignup(@RequestBody SignupDto signupDto) {
 
         return ResponseEntity.ok(userService.signup(signupDto));
     }
 
-    @PostMapping("/validate")
+    @PostMapping("/v1/validate")
     public boolean validateToken(@RequestParam("jwt") String jwt) {
         return jwtService.isValidToken(jwt);
     }

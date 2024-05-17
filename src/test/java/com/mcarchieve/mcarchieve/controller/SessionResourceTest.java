@@ -66,7 +66,7 @@ public class SessionResourceTest {
         when(sessionService.createSession(any(SessionRequestDto.class))).thenReturn(createdSessionDto);
 
         ResultActions actions =
-                mockMvc.perform(post("/sessions")
+                mockMvc.perform(post("/v1/sessions")
                         .with(SecurityMockMvcRequestPostProcessors.csrf()) // 403 방지
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -86,7 +86,7 @@ public class SessionResourceTest {
 
         when(sessionService.findAllSessions()).thenReturn(sessionDtos);
 
-        ResultActions actions = mockMvc.perform(get("/sessions")
+        ResultActions actions = mockMvc.perform(get("/v1/sessions")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
         );
@@ -108,7 +108,7 @@ public class SessionResourceTest {
         when(sessionService.findSessionById(sessionId)).thenReturn(SessionResponseDto.fromEntity(session));
 
         // when
-        ResultActions actions = mockMvc.perform(get("/sessions/{id}", sessionId)
+        ResultActions actions = mockMvc.perform(get("/v1/sessions/{id}", sessionId)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON));
 
@@ -128,7 +128,7 @@ public class SessionResourceTest {
         when(sessionService.findSessionById(nonExistentSessionId)).thenReturn(null);
 
         // when
-        ResultActions actions = mockMvc.perform(get("/sessions/{id}", nonExistentSessionId)
+        ResultActions actions = mockMvc.perform(get("/v1/sessions/{id}", nonExistentSessionId)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON));
 
@@ -149,7 +149,7 @@ public class SessionResourceTest {
         when(sessionService.deleteSessionById(sessionId)).thenReturn(true);
 
         // when
-        ResultActions actions = mockMvc.perform(delete("/sessions/{id}", sessionId)
+        ResultActions actions = mockMvc.perform(delete("/v1/sessions/{id}", sessionId)
                 .with(SecurityMockMvcRequestPostProcessors.csrf()) // 403 방지
                 .accept(MediaType.APPLICATION_JSON));
 
@@ -167,7 +167,7 @@ public class SessionResourceTest {
         when(sessionService.deleteSessionById(nonExistentSessionId)).thenReturn(false);
 
         // when
-        ResultActions actions = mockMvc.perform(delete("/sessions/{id}", nonExistentSessionId)
+        ResultActions actions = mockMvc.perform(delete("/v1/sessions/{id}", nonExistentSessionId)
                 .with(SecurityMockMvcRequestPostProcessors.csrf()) // 403 방지
                 .accept(MediaType.APPLICATION_JSON));
 

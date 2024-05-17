@@ -16,7 +16,7 @@ public class UserResource {
         this.userService = userService;
     }
 
-    @GetMapping("/my")
+    @GetMapping("/v1/my")
     public UserDto getMyInfo(Principal principal) {
         UserDto userDto = userService.getUserByEmail(principal.getName());
         return userDto;

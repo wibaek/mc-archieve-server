@@ -20,7 +20,7 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/sessions")
+@RequestMapping("/v1/sessions")
 public class SessionResource {
 
     private SessionService sessionService;

@@ -56,9 +56,9 @@ public class SecurityConfiguration {
                 )
                 .authorizeHttpRequests(
                         auth -> auth
-                                .requestMatchers("/login").permitAll()
-                                .requestMatchers("/signup").permitAll()
-                                .requestMatchers("/validate").permitAll()
+                                .requestMatchers("/v1/login").permitAll()
+                                .requestMatchers("/v1/signup").permitAll()
+                                .requestMatchers("/v1/validate").permitAll()
                                 .anyRequest().authenticated()
 //                                .anyRequest().permitAll()
                 )
