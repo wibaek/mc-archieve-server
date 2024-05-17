@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -58,6 +59,9 @@ public class SecurityConfiguration {
                                 .requestMatchers("/v1/login").permitAll()
                                 .requestMatchers("/v1/signup").permitAll()
                                 .requestMatchers("/v1/validate").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/v1/servers/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/v1/sessions/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/v1/stories/**").permitAll()
                                 .anyRequest().authenticated()
 //                                .anyRequest().permitAll()
                 )
