@@ -1,12 +1,17 @@
 package com.mcarchieve.mcarchieve.entity.user;
 
-import com.mcarchieve.mcarchieve.type.LoginType;
+import java.time.Instant;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.Instant;
+import com.mcarchieve.mcarchieve.type.LoginType;
 
+
+@Getter
+@Setter
 @Entity
 @Table(name = "users")
 @EntityListeners(AuditingEntityListener.class)
@@ -52,59 +57,5 @@ public class User {
     @Column(nullable = false, updatable = false)
     private Instant joinDate;
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Password getPassword() {
-        return password;
-    }
-
-    public void setPassword(Password password) {
-        this.password = password;
-    }
-
-    public Profile getProfile() {
-        return profile;
-    }
-
-    public void setProfile(Profile profile) {
-        this.profile = profile;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
-    public LoginType getLoginType() {
-        return loginType;
-    }
-
-    public void setLoginType(LoginType loginType) {
-        this.loginType = loginType;
-    }
-
-    public Instant getJoinDate() {
-        return joinDate;
-    }
-
-    public void setJoinDate(Instant joinDate) {
-        this.joinDate = joinDate;
-    }
 }

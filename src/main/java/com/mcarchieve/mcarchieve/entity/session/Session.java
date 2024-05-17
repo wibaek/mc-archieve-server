@@ -4,7 +4,7 @@ import com.mcarchieve.mcarchieve.entity.user.User;
 import jakarta.persistence.*;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 public class Session {
@@ -24,14 +24,14 @@ public class Session {
     @JoinColumn(name = "server_id", nullable = true)
     private Server server;
 
-    private Instant startDate;
+    private LocalDate startDate;
 
-    private Instant endDate;
+    private LocalDate endDate;
 
     public Session() {
     }
 
-    public Session(Long id, String name, User owner, Server server, Instant startDate, Instant endDate) {
+    public Session(Long id, String name, User owner, Server server, LocalDate startDate, LocalDate endDate) {
         this.id = id;
         this.name = name;
         this.owner = owner;
@@ -72,19 +72,19 @@ public class Session {
         this.server = server;
     }
 
-    public Instant getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Instant startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public Instant getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Instant endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 }

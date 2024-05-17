@@ -1,11 +1,11 @@
 package com.mcarchieve.mcarchieve.dto.session;
 
-import com.mcarchieve.mcarchieve.entity.session.Session;
+import java.time.LocalDate;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Instant;
+import com.mcarchieve.mcarchieve.entity.session.Session;
 
 @Getter
 @Setter
@@ -15,8 +15,8 @@ public class SessionResponseDto {
     private String name;
     private Long ownerId;
     private Long serverId;
-    private Instant startDate;
-    private Instant endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     public static SessionResponseDto fromEntity(Session session) {
         return SessionResponseDto.builder()

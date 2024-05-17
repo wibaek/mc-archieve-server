@@ -39,6 +39,7 @@ public class SessionResource {
     public ResponseEntity<SessionResponseDto> createSession(@Valid @RequestBody SessionRequestDto sessionDto) {
         SessionResponseDto createdSessionDto = sessionService.createSession(sessionDto);
 
+
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")

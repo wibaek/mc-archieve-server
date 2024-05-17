@@ -13,6 +13,7 @@ import com.mcarchieve.mcarchieve.entity.user.User;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Optional;
 
 
@@ -32,8 +33,8 @@ class SessionRepositoryTest {
         session.setName("Session1");
         session.setOwner(owner);
         session.setServer(server);
-        session.setStartDate(Instant.now());
-        session.setEndDate(Instant.now().plusSeconds(3600));
+        session.setStartDate(LocalDate.now());
+        session.setEndDate(LocalDate.now().plusDays(10));
 
         Session savedSession = sessionRepository.save(session);
 
@@ -50,7 +51,7 @@ class SessionRepositoryTest {
         User owner = new User();
         Server server = new Server();
 
-        Session session = new Session(null, "Session1", owner, server, Instant.now(), Instant.now().plusSeconds(1800));
+        Session session = new Session(null, "Session1", owner, server, LocalDate.now(), LocalDate.now().plusDays(10));
         session = sessionRepository.save(session);
 
         Optional<Session> foundSession = sessionRepository.findById(session.getId());
@@ -64,7 +65,7 @@ class SessionRepositoryTest {
         User owner = new User();
         Server server = new Server();
 
-        Session session = new Session(null, "Session1", owner, server, Instant.now(), Instant.now().plusSeconds(7200));
+        Session session = new Session(null, "Session1", owner, server, LocalDate.now(), LocalDate.now().plusDays(10));
         session = sessionRepository.save(session);
 
         sessionRepository.delete(session);
@@ -78,7 +79,7 @@ class SessionRepositoryTest {
         User owner = new User();
         Server server = new Server();
 
-        Session session = new Session(null, "Session1", owner, server, Instant.now(), Instant.now().plusSeconds(7200));
+        Session session = new Session(null, "Session1", owner, server, LocalDate.now(), LocalDate.now().plusDays(10));
         session = sessionRepository.save(session);
 
         session.setName("Session2");

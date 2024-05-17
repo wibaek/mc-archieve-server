@@ -1,17 +1,34 @@
 package com.mcarchieve.mcarchieve.entity.session;
 
-import com.mcarchieve.mcarchieve.entity.Image;
-import com.mcarchieve.mcarchieve.entity.user.User;
+
 import jakarta.persistence.*;
 
+import java.time.Instant;
+
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.mcarchieve.mcarchieve.entity.Image;
+import com.mcarchieve.mcarchieve.entity.user.User;
+
+
+@Getter
+@Setter
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Story {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     private String description;
+
+    @CreatedDate
+    @Column(nullable = false, updatable = false)
+    private Instant createdAt;
 
     @OneToOne
     @JoinColumn(name = "image_id", nullable = true)
@@ -25,43 +42,4 @@ public class Story {
     @JoinColumn(name = "session_id", nullable = false)
     private Session session;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Image getImage() {
-        return image;
-    }
-
-    public void setImage(Image image) {
-        this.image = image;
-    }
-
-    public User getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(User createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Session getSession() {
-        return session;
-    }
-
-    public void setSession(Session session) {
-        this.session = session;
-    }
 }

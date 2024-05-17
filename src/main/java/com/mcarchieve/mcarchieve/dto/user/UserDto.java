@@ -1,11 +1,16 @@
 package com.mcarchieve.mcarchieve.dto.user;
 
-import com.mcarchieve.mcarchieve.dto.user.ProfileDto;
+import java.time.Instant;
+
+import lombok.Getter;
+import lombok.Setter;
+
 import com.mcarchieve.mcarchieve.entity.user.User;
 import com.mcarchieve.mcarchieve.type.LoginType;
 
-import java.time.Instant;
 
+@Getter
+@Setter
 public class UserDto {
 
     private Long id;
@@ -30,45 +35,5 @@ public class UserDto {
 //        this.player = user.getPlayer();
         this.loginType = user.getLoginType();
         this.joinDate = user.getJoinDate();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public LoginType getLoginType() {
-        return loginType;
-    }
-
-    public void setLoginType(LoginType loginType) {
-        this.loginType = loginType;
-    }
-
-    public Instant getJoinDate() {
-        return joinDate;
-    }
-
-    public void setJoinDate(Instant joinDate) {
-        this.joinDate = joinDate;
-    }
-
-    public ProfileDto getProfile() {
-        return profile;
-    }
-
-    public void setProfile(ProfileDto profile) {
-        this.profile = profile;
     }
 }
