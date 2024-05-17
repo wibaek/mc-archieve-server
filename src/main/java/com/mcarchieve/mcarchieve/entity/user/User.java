@@ -1,14 +1,13 @@
 package com.mcarchieve.mcarchieve.entity.user;
 
-import java.time.Instant;
+import com.mcarchieve.mcarchieve.type.LoginType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.mcarchieve.mcarchieve.type.LoginType;
-
+import java.time.Instant;
 
 @Getter
 @Setter
@@ -16,20 +15,6 @@ import com.mcarchieve.mcarchieve.type.LoginType;
 @Table(name = "users")
 @EntityListeners(AuditingEntityListener.class)
 public class User {
-
-    public User() {
-    }
-
-    public User(Long id, String email, Password password, Profile profile, Player player, LoginType loginType, Instant joinDate) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
-        this.profile = profile;
-        this.player = player;
-        this.loginType = loginType;
-        this.joinDate = joinDate;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -57,5 +42,16 @@ public class User {
     @Column(nullable = false, updatable = false)
     private Instant joinDate;
 
+    public User() {
+    }
 
+    public User(Long id, String email, Password password, Profile profile, Player player, LoginType loginType, Instant joinDate) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.profile = profile;
+        this.player = player;
+        this.loginType = loginType;
+        this.joinDate = joinDate;
+    }
 }

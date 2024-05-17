@@ -1,14 +1,17 @@
 package com.mcarchieve.mcarchieve.entity.session;
 
 import com.mcarchieve.mcarchieve.entity.user.User;
+
+import lombok.Getter;
+import lombok.Setter;
 import jakarta.persistence.*;
 
-import java.time.Instant;
 import java.time.LocalDate;
 
+@Getter
+@Setter
 @Entity
 public class Session {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,54 +40,6 @@ public class Session {
         this.owner = owner;
         this.server = server;
         this.startDate = startDate;
-        this.endDate = endDate;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public User getOwner() {
-        return owner;
-    }
-
-    public void setOwner(User owner) {
-        this.owner = owner;
-    }
-
-    public Server getServer() {
-        return server;
-    }
-
-    public void setServer(Server server) {
-        this.server = server;
-    }
-
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 }

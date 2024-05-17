@@ -9,6 +9,7 @@ import com.mcarchieve.mcarchieve.repository.PasswordRepository;
 import com.mcarchieve.mcarchieve.repository.ProfileRepository;
 import com.mcarchieve.mcarchieve.repository.UserRepository;
 import com.mcarchieve.mcarchieve.type.LoginType;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

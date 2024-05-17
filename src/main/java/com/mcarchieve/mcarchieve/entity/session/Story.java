@@ -1,25 +1,22 @@
 package com.mcarchieve.mcarchieve.entity.session;
 
-
-import jakarta.persistence.*;
-
-import java.time.Instant;
-
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import com.mcarchieve.mcarchieve.entity.Image;
 import com.mcarchieve.mcarchieve.entity.user.User;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.Instant;
 
 @Getter
 @Setter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class Story {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -41,5 +38,4 @@ public class Story {
     @ManyToOne
     @JoinColumn(name = "session_id", nullable = false)
     private Session session;
-
 }

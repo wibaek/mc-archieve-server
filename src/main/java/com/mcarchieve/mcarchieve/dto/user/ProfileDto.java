@@ -2,11 +2,14 @@ package com.mcarchieve.mcarchieve.dto.user;
 
 import com.mcarchieve.mcarchieve.entity.user.Profile;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class ProfileDto {
     private Long id;
-
     private String nickname;
-
     private String profileImageUrl;
 
     public ProfileDto(Long id, String nickname, String profileImageUrl) {
@@ -15,33 +18,7 @@ public class ProfileDto {
         this.profileImageUrl = profileImageUrl;
     }
 
-    public ProfileDto(Profile profile) {
-        this.id = profile.getId();
-        this.nickname = profile.getNickname();
-        this.profileImageUrl = profile.getProfileImageUrl();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public String getProfileImageUrl() {
-        return profileImageUrl;
-    }
-
-    public void setProfileImageUrl(String profileImageUrl) {
-        this.profileImageUrl = profileImageUrl;
+    public static ProfileDto fromEntity(Profile profile) {
+        return new ProfileDto(profile.getId(), profile.getNickname(), profile.getProfileImageUrl());
     }
 }

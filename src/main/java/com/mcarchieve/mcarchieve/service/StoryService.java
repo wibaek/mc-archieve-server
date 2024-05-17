@@ -1,6 +1,5 @@
 package com.mcarchieve.mcarchieve.service;
 
-import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.mcarchieve.mcarchieve.dto.session.StoryRequestDto;
 import com.mcarchieve.mcarchieve.dto.session.StoryResponseDto;
 import com.mcarchieve.mcarchieve.entity.Image;
@@ -11,6 +10,8 @@ import com.mcarchieve.mcarchieve.repository.SessionRepository;
 import com.mcarchieve.mcarchieve.repository.StoryRepository;
 import com.mcarchieve.mcarchieve.repository.UserRepository;
 import com.mcarchieve.mcarchieve.type.FileUploadPath;
+
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

@@ -1,18 +1,16 @@
 package com.mcarchieve.mcarchieve.repository;
 
-import jakarta.persistence.EntityManager;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.mcarchieve.mcarchieve.entity.session.Server;
 import com.mcarchieve.mcarchieve.entity.session.Session;
 import com.mcarchieve.mcarchieve.entity.user.User;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.junit.jupiter.api.Test;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.time.Instant;
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.time.LocalDate;
 import java.util.Optional;
 

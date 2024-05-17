@@ -1,18 +1,16 @@
 package com.mcarchieve.mcarchieve.dto.user;
 
-import java.time.Instant;
+import com.mcarchieve.mcarchieve.entity.user.User;
+import com.mcarchieve.mcarchieve.type.LoginType;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import com.mcarchieve.mcarchieve.entity.user.User;
-import com.mcarchieve.mcarchieve.type.LoginType;
-
+import java.time.Instant;
 
 @Getter
 @Setter
 public class UserDto {
-
     private Long id;
     private String email;
     private LoginType loginType;
@@ -31,7 +29,7 @@ public class UserDto {
         this.id = user.getId();
         this.email = user.getEmail();
 //        this.password = user.getPassword();
-        this.profile = new ProfileDto(user.getProfile());
+        this.profile = ProfileDto.fromEntity(user.getProfile());
 //        this.player = user.getPlayer();
         this.loginType = user.getLoginType();
         this.joinDate = user.getJoinDate();

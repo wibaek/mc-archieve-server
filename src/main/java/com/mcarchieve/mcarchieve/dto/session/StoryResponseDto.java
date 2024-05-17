@@ -1,9 +1,8 @@
 package com.mcarchieve.mcarchieve.dto.session;
 
-import lombok.*;
-
 import com.mcarchieve.mcarchieve.entity.session.Story;
-import org.springframework.stereotype.Service;
+
+import lombok.*;
 
 @Getter
 @Setter

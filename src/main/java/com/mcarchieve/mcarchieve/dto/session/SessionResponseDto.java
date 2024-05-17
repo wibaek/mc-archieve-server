@@ -1,11 +1,13 @@
 package com.mcarchieve.mcarchieve.dto.session;
 
-import java.time.LocalDate;
+import com.mcarchieve.mcarchieve.entity.session.Session;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import com.mcarchieve.mcarchieve.entity.session.Session;
+import java.time.LocalDate;
+
 
 @Getter
 @Setter
@@ -27,6 +29,6 @@ public class SessionResponseDto {
                 .ownerId(session.getOwner() != null ? session.getOwner().getId() : null)
                 .serverId(session.getServer() != null ? session.getServer().getId() : null)
                 .build(
-        );
+                );
     }
 }

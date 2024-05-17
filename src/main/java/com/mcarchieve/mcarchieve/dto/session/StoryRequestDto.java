@@ -1,7 +1,12 @@
 package com.mcarchieve.mcarchieve.dto.session;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.springframework.web.multipart.MultipartFile;
 
+@Getter
+@Setter
 public class StoryRequestDto {
     private Long id;
     private String description;
@@ -17,46 +22,6 @@ public class StoryRequestDto {
         this.description = description;
         this.image = image;
         this.createdById = createdById;
-        this.sessionId = sessionId;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public MultipartFile getImage() {
-        return image;
-    }
-
-    public void setImage(MultipartFile image) {
-        this.image = image;
-    }
-
-    public Long getCreatedById() {
-        return createdById;
-    }
-
-    public void setCreatedById(Long createdById) {
-        this.createdById = createdById;
-    }
-
-    public Long getSessionId() {
-        return sessionId;
-    }
-
-    public void setSessionId(Long sessionId) {
         this.sessionId = sessionId;
     }
 }
