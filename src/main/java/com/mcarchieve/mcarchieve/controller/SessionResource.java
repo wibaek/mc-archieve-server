@@ -36,8 +36,9 @@ public class SessionResource {
     }
 
     @PostMapping
-    public ResponseEntity<SessionResponseDto> createSession(@Valid @RequestBody SessionRequestDto sessionDto) {
-        SessionResponseDto createdSessionDto = sessionService.createSession(sessionDto);
+    public ResponseEntity<SessionResponseDto> createSession(@Valid @RequestBody SessionRequestDto sessionRequestDto, Principal principal) {
+        User user = userRepository.findByEmail(principal.getName()).orElseThrow(() -> new RuntimeException("User not found"));
+        SessionResponseDto createdSessionDto = sessionService.createSession(sessionRequestDto, user);
 
 
         URI location = ServletUriComponentsBuilder
@@ -77,7 +78,7 @@ public class SessionResource {
     }
 
     @PostMapping(path = "/{id}/stories", consumes = "multipart/form-data")
-    public ResponseEntity<StoryResponseDto> createStory(StoryRequestDto storyRequestDto, Principal principal, @PathVariable Long id) {
+    public ResponseEntity<StoryResponseDto> createStory(@Valid @RequestBody StoryRequestDto storyRequestDto, Principal principal, @PathVariable Long id) {
         try {
             User user = userRepository.findByEmail(principal.getName()).orElseThrow(() -> new RuntimeException("User not found"));
 

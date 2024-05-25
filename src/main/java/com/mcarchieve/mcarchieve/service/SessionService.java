@@ -3,6 +3,7 @@ package com.mcarchieve.mcarchieve.service;
 import com.mcarchieve.mcarchieve.entity.session.Session;
 import com.mcarchieve.mcarchieve.dto.session.SessionRequestDto;
 import com.mcarchieve.mcarchieve.dto.session.SessionResponseDto;
+import com.mcarchieve.mcarchieve.entity.user.User;
 import com.mcarchieve.mcarchieve.repository.SessionRepository;
 
 import org.springframework.stereotype.Service;
@@ -20,8 +21,9 @@ public class SessionService {
         this.sessionRepository = sessionRepository;
     }
 
-    public SessionResponseDto createSession(SessionRequestDto sessionDto) {
+    public SessionResponseDto createSession(SessionRequestDto sessionDto, User user) {
         Session session = sessionDto.toEntity();
+        session.setOwner(user);
         session = sessionRepository.save(session);
         return SessionResponseDto.fromEntity(session);
     }

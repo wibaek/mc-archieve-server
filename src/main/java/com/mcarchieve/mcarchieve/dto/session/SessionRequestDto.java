@@ -12,7 +12,6 @@ import java.time.LocalDate;
 @Setter
 public class SessionRequestDto {
     private String name;
-    private Long ownerId;
     private Long serverId;
     private LocalDate startDate;
     private LocalDate endDate;
@@ -22,7 +21,6 @@ public class SessionRequestDto {
         session.setName(this.name);
         session.setStartDate(this.startDate);
         session.setEndDate(this.endDate);
-
         return session;
     }
 }

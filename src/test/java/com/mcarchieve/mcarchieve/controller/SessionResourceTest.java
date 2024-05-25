@@ -2,6 +2,7 @@ package com.mcarchieve.mcarchieve.controller;
 
 
 import com.mcarchieve.mcarchieve.entity.session.Session;
+import com.mcarchieve.mcarchieve.entity.user.User;
 import com.mcarchieve.mcarchieve.repository.SessionRepository;
 import com.mcarchieve.mcarchieve.dto.session.SessionRequestDto;
 import com.mcarchieve.mcarchieve.service.JwtService;
@@ -62,7 +63,8 @@ public class SessionResourceTest {
 
         SessionResponseDto createdSessionDto = SessionResponseDto.builder().id(1L).name("Test Session").build();
         // when
-        when(sessionService.createSession(any(SessionRequestDto.class))).thenReturn(createdSessionDto);
+        when(sessionService.createSession(any(SessionRequestDto.class), any(User.class))).thenReturn(createdSessionDto);
+        when(userRepository.findByEmail(anyString())).thenReturn(java.util.Optional.of(new User()));
 
         ResultActions actions =
                 mockMvc.perform(post("/v1/sessions")
