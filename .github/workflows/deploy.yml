@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - release
+      - t2-dockerfile-test
 
 jobs:
   build-docker-image-and-push:
