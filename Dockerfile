@@ -18,5 +18,4 @@ ADD ${JAR_FILE} mc-archieve-server.jar
 # 포트 8080 노출
 EXPOSE 8080
 
-# 론쳐 설정
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "mc-archieve-server.jar"]
