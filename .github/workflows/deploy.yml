@@ -3,38 +3,22 @@ name: Build Docker image and deploy
 on:
   push:
     branches:
-      - release
       - t1-deploy-error-check
 
 jobs:
-  build-docker-image-and-push:
+  docker-login-test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Setup JDK 17
-        uses: actions/setup-java@v1
-        with:
-          java-version: 17
-
-      - name: Grant execute permission for Gradle wrapper (gradlew)
-        run: chmod +x ./gradlew
-
-      - name: Build JAR
-        run: ./gradlew bootJar -Dspring.profiles.active=prod
-
-      - name: Check Docker Hub username
-        run: echo "Docker Hub Username is set"
+        
+      - name: Print environment variables
+        run: |
+          echo "DOCKER_HUB_USERNAME=${DOCKER_HUB_USERNAME_TEST}"
+          echo "DOCKER_HUB_TOKEN=${DOCKER_HUB_TOKEN_TEST}"
         env:
-          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-        if: env.DOCKER_HUB_USERNAME != ''
-
-      - name: Check Docker Hub token
-        run: echo "Docker Hub Token is set"
-        env:
-          DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
-        if: env.DOCKER_HUB_TOKEN != ''
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME_TEST }}
+          DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN_TEST }}
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -42,10 +26,3 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          file: ./Dockerfile
-          tags: ${{ secrets.DOCKER_HUB_REPOSITORY }}:prod
