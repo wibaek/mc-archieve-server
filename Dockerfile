@@ -10,10 +10,10 @@
 
 # 최종 이미지
 FROM bellsoft/liberica-openjdk-alpine:17
-WORKDIR /app
 
-# 바이너리 복사
-COPY /app/build/libs/*.jar ./app.jar
+ARG JAR_FILE=build/libs/mc-archieve-server-0.0.1.jar
+
+ADD ${JAR_FILE} mc-archieve-server.jar
 
 # 포트 8080 노출
 EXPOSE 8080
