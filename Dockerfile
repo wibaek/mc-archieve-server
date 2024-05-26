@@ -6,7 +6,7 @@
 #COPY . .
 
 # 빌드 실행
-RUN #./gradlew clean build
+#RUN ./gradlew clean build
 
 # 최종 이미지
 FROM bellsoft/liberica-openjdk-alpine:17
