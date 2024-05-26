@@ -14,8 +14,8 @@ jobs:
         
       - name: Print environment variables
         run: |
-          echo "DOCKER_HUB_USERNAME=${DOCKER_HUB_USERNAME_TEST}"
-          echo "DOCKER_HUB_TOKEN=${DOCKER_HUB_TOKEN_TEST}"
+          echo "DOCKER_HUB_USERNAME=${DOCKER_HUB_USERNAME}"
+          echo "DOCKER_HUB_TOKEN=${DOCKER_HUB_TOKEN}"
         env:
           DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME_TEST }}
           DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN_TEST }}
