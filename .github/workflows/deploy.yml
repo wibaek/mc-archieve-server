@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - release
+      - t1-deploy-error-check
 
 jobs:
   build-docker-image-and-push:
