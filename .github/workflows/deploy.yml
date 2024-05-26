@@ -18,19 +18,23 @@ jobs:
         with:
           java-version: 17
 
-      - name: Grant execute permission for Gradle wrapper(gradlew)
+      - name: Grant execute permission for Gradle wrapper (gradlew)
         run: chmod +x ./gradlew
 
       - name: Build JAR
         run: ./gradlew bootJar -Dspring.profiles.active=prod
-        
+
       - name: Check Docker Hub username
         run: echo "Docker Hub Username is set"
-        if: ${{ secrets.DOCKER_HUB_USERNAME != '' }}
+        env:
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+        if: env.DOCKER_HUB_USERNAME != ''
 
       - name: Check Docker Hub token
         run: echo "Docker Hub Token is set"
-        if: ${{ secrets.DOCKER_HUB_TOKEN != '' }}
+        env:
+          DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
+        if: env.DOCKER_HUB_TOKEN != ''
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -38,7 +42,7 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-      - name: Build and push
+      - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
