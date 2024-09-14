@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: test
+    active: prod
     group:
       prod:
         - prod
@@ -23,7 +23,7 @@ spring:
 
 service:
   jwt:
-    expiration: 900000 # 15 minutes
+    expiration: 36000000 # 600 minutes
 
 --- # prod
 spring:
