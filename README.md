@@ -3,6 +3,12 @@ Minecraft Archive + Achieve
 
 Minecraft Archieve app backend repository
 
+## Commands
+- Setup docker db
+```shell
+docker compose -f docker-compose.dev.yml up
+```
+
 ## Environment
 - Java 17
 

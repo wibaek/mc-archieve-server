@@ -1,0 +1,13 @@
+version: "2"
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: dev-mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: mcdb
+      MYSQL_USER: mcuser
+      MYSQL_PASSWORD: mcpassword
+      MYSQL_ROOT_PASSWORD: rootpassword
+    ports:
+      - "3306:3306"
