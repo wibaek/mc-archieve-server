@@ -1,6 +1,5 @@
 package com.mcarchieve.mcarchieve.repository;
 
-import com.mcarchieve.mcarchieve.domain.session.Server;
 import com.mcarchieve.mcarchieve.domain.session.Session;
 import com.mcarchieve.mcarchieve.domain.user.User;
 
