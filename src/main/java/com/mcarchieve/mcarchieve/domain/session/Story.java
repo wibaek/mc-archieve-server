@@ -1,5 +1,6 @@
 package com.mcarchieve.mcarchieve.domain.session;
 
+import com.mcarchieve.mcarchieve.domain.BaseEntity;
 import com.mcarchieve.mcarchieve.domain.Image;
 import com.mcarchieve.mcarchieve.domain.user.User;
 
@@ -15,27 +16,23 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@EntityListeners(AuditingEntityListener.class)
-public class Story {
+public class Story extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String description;
+    private String caption;
 
-    @CreatedDate
-    @Column(nullable = false, updatable = false)
-    private Instant createdAt;
-
-    @OneToOne
-    @JoinColumn(name = "image_id", nullable = true)
+    @Embedded
     private Image image;
 
-    @ManyToOne
-    @JoinColumn(name = "created_by", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "created_by_id")
     private User createdBy;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "session_id", nullable = false)
     private Session session;
+
 }

@@ -1,17 +1,24 @@
 package com.mcarchieve.mcarchieve.domain.session;
 
+import com.mcarchieve.mcarchieve.domain.BaseEntity;
 import com.mcarchieve.mcarchieve.domain.user.User;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Session {
+public class Session extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,27 +26,17 @@ public class Session {
     @Column(nullable = false)
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "owner_id", nullable = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id")
     private User owner;
 
-    @ManyToOne
-    @JoinColumn(name = "server_id", nullable = true)
-    private Server server;
+    @OneToMany(mappedBy = "session")
+    private List<Story> stories = new ArrayList<>();
 
     private LocalDate startDate;
-
     private LocalDate endDate;
 
-    public Session() {
-    }
-
-    public Session(Long id, String name, User owner, Server server, LocalDate startDate, LocalDate endDate) {
-        this.id = id;
+    public Session(String name) {
         this.name = name;
-        this.owner = owner;
-        this.server = server;
-        this.startDate = startDate;
-        this.endDate = endDate;
     }
 }
