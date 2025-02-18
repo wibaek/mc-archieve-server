@@ -1,4 +1,4 @@
-package com.mcarchieve.mcarchieve.entity.user;
+package com.mcarchieve.mcarchieve.domain.user;
 
 import com.mcarchieve.mcarchieve.type.LoginType;
 import jakarta.persistence.*;

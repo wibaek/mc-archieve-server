@@ -1,6 +1,6 @@
 package com.mcarchieve.mcarchieve.dto;
 
-import com.mcarchieve.mcarchieve.entity.Image;
+import com.mcarchieve.mcarchieve.domain.Image;
 
 import lombok.Getter;
 import lombok.Setter;

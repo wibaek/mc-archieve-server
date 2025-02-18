@@ -1,6 +1,6 @@
 package com.mcarchieve.mcarchieve.service;
 
-import com.mcarchieve.mcarchieve.entity.user.User;
+import com.mcarchieve.mcarchieve.domain.user.User;
 import com.mcarchieve.mcarchieve.repository.UserRepository;
 
 import org.springframework.security.core.GrantedAuthority;

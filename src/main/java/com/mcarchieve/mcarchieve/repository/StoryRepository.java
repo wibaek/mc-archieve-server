@@ -1,6 +1,6 @@
 package com.mcarchieve.mcarchieve.repository;
 
-import com.mcarchieve.mcarchieve.entity.session.Story;
+import com.mcarchieve.mcarchieve.domain.session.Story;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.JpaRepository;

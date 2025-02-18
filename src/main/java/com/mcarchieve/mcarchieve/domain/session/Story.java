@@ -1,7 +1,7 @@
-package com.mcarchieve.mcarchieve.entity.session;
+package com.mcarchieve.mcarchieve.domain.session;
 
-import com.mcarchieve.mcarchieve.entity.Image;
-import com.mcarchieve.mcarchieve.entity.user.User;
+import com.mcarchieve.mcarchieve.domain.Image;
+import com.mcarchieve.mcarchieve.domain.user.User;
 
 import lombok.Getter;
 import lombok.Setter;

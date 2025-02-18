@@ -1,6 +1,6 @@
-package com.mcarchieve.mcarchieve.entity.session;
+package com.mcarchieve.mcarchieve.domain.session;
 
-import com.mcarchieve.mcarchieve.entity.user.User;
+import com.mcarchieve.mcarchieve.domain.user.User;
 
 import jakarta.persistence.*;
 import lombok.Getter;

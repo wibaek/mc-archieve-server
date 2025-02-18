@@ -4,7 +4,7 @@ import com.mcarchieve.mcarchieve.dto.session.SessionRequestDto;
 import com.mcarchieve.mcarchieve.dto.session.SessionResponseDto;
 import com.mcarchieve.mcarchieve.dto.session.StoryRequestDto;
 import com.mcarchieve.mcarchieve.dto.session.StoryResponseDto;
-import com.mcarchieve.mcarchieve.entity.user.User;
+import com.mcarchieve.mcarchieve.domain.user.User;
 import com.mcarchieve.mcarchieve.repository.UserRepository;
 import com.mcarchieve.mcarchieve.service.SessionService;
 import com.mcarchieve.mcarchieve.service.StoryService;

@@ -1,4 +1,4 @@
-package com.mcarchieve.mcarchieve.entity;
+package com.mcarchieve.mcarchieve.domain;
 
 import jakarta.persistence.*;
 import lombok.Getter;

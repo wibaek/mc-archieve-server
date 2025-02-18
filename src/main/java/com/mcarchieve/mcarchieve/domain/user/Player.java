@@ -1,4 +1,4 @@
-package com.mcarchieve.mcarchieve.entity.user;
+package com.mcarchieve.mcarchieve.domain.user;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

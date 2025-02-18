@@ -1,9 +1,9 @@
 package com.mcarchieve.mcarchieve.service;
 
-import com.mcarchieve.mcarchieve.entity.session.Session;
+import com.mcarchieve.mcarchieve.domain.session.Session;
 import com.mcarchieve.mcarchieve.dto.session.SessionRequestDto;
 import com.mcarchieve.mcarchieve.dto.session.SessionResponseDto;
-import com.mcarchieve.mcarchieve.entity.user.User;
+import com.mcarchieve.mcarchieve.domain.user.User;
 import com.mcarchieve.mcarchieve.repository.SessionRepository;
 
 import org.springframework.stereotype.Service;
