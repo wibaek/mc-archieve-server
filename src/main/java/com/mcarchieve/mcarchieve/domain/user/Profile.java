@@ -1,30 +1,32 @@
 package com.mcarchieve.mcarchieve.domain.user;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.mcarchieve.mcarchieve.domain.Image;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Getter
-@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Profile {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "id", nullable = false)
+    private User user;
+
+    @Column(nullable = false)
     private String nickname;
 
-    private String profileImageUrl;
+    @Embedded
+    private Image profileImage;
 
-    public Profile() {
-    }
-
-    public Profile(Long id, String nickname, String profileImageUrl) {
-        this.id = id;
+    public Profile(User user, String nickname) {
+        this.user = user;
         this.nickname = nickname;
-        this.profileImageUrl = profileImageUrl;
     }
 }

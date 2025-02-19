@@ -1,18 +1,20 @@
 package com.mcarchieve.mcarchieve.domain.user;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 
 @Getter
-@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class Password {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,12 +25,7 @@ public class Password {
     @LastModifiedDate
     private Instant updatedAt;
 
-    public Password() {
-    }
-
-    public Password(Long id, String password, Instant updatedAt) {
-        this.id = id;
+    public Password(String password) {
         this.password = password;
-        this.updatedAt = updatedAt;
     }
 }

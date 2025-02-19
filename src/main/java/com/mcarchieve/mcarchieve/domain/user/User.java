@@ -1,57 +1,42 @@
 package com.mcarchieve.mcarchieve.domain.user;
 
+import com.mcarchieve.mcarchieve.domain.BaseEntity;
 import com.mcarchieve.mcarchieve.type.LoginType;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.Instant;
+import lombok.NoArgsConstructor;
 
 @Getter
-@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "users")
-@EntityListeners(AuditingEntityListener.class)
-public class User {
+public class User extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private String email;
-
-    @OneToOne
-    @JoinColumn(name = "password_id", nullable = true)
-    private Password password;
-
-    @OneToOne
-    @JoinColumn(name = "profile_id", nullable = false)
-    private Profile profile;
-
-    @OneToOne
-    @JoinColumn(name = "player_id", nullable = true)
-    private Player player;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private LoginType loginType;
 
-    @CreatedDate
-    @Column(nullable = false, updatable = false)
-    private Instant joinDate;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "password_id", nullable = true)
+    private Password password;
 
-    public User() {
-    }
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, optional = false)
+    private Profile profile;
 
-    public User(Long id, String email, Password password, Profile profile, Player player, LoginType loginType, Instant joinDate) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
-        this.profile = profile;
-        this.player = player;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "player_id", nullable = true)
+    private Player player;
+
+    public User(LoginType loginType, Profile profile) {
         this.loginType = loginType;
-        this.joinDate = joinDate;
+        this.profile = profile;
     }
 }
