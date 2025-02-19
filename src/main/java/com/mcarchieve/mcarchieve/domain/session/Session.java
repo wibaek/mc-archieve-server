@@ -2,12 +2,11 @@ package com.mcarchieve.mcarchieve.domain.session;
 
 import com.mcarchieve.mcarchieve.domain.BaseEntity;
 import com.mcarchieve.mcarchieve.domain.user.User;
-
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -36,7 +35,8 @@ public class Session extends BaseEntity {
     private LocalDate startDate;
     private LocalDate endDate;
 
-    public Session(String name) {
+    public Session(String name, User owner) {
         this.name = name;
+        this.owner = owner;
     }
 }

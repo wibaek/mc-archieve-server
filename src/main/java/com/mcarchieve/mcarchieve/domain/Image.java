@@ -1,14 +1,13 @@
 package com.mcarchieve.mcarchieve.domain;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
 public class Image {
 
@@ -20,5 +19,4 @@ public class Image {
 
     @Column
     private Long size;
-
 }
