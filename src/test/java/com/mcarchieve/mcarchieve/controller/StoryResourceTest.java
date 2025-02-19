@@ -1,8 +1,8 @@
 package com.mcarchieve.mcarchieve.controller;
 
 import com.mcarchieve.mcarchieve.dto.session.StoryResponseDto;
-import com.mcarchieve.mcarchieve.entity.session.Session;
-import com.mcarchieve.mcarchieve.entity.session.Story;
+import com.mcarchieve.mcarchieve.domain.session.Session;
+import com.mcarchieve.mcarchieve.domain.session.Story;
 import com.mcarchieve.mcarchieve.service.JwtService;
 import com.mcarchieve.mcarchieve.service.StoryService;
 

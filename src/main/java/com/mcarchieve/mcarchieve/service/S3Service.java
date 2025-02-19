@@ -1,10 +1,8 @@
 package com.mcarchieve.mcarchieve.service;
 
-import com.mcarchieve.mcarchieve.entity.Image;
-import com.mcarchieve.mcarchieve.repository.ImageRepository;
-
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.mcarchieve.mcarchieve.domain.Image;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

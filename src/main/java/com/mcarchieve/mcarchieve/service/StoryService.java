@@ -2,10 +2,10 @@ package com.mcarchieve.mcarchieve.service;
 
 import com.mcarchieve.mcarchieve.dto.session.StoryRequestDto;
 import com.mcarchieve.mcarchieve.dto.session.StoryResponseDto;
-import com.mcarchieve.mcarchieve.entity.Image;
-import com.mcarchieve.mcarchieve.entity.session.Session;
-import com.mcarchieve.mcarchieve.entity.session.Story;
-import com.mcarchieve.mcarchieve.entity.user.User;
+import com.mcarchieve.mcarchieve.domain.Image;
+import com.mcarchieve.mcarchieve.domain.session.Session;
+import com.mcarchieve.mcarchieve.domain.session.Story;
+import com.mcarchieve.mcarchieve.domain.user.User;
 import com.mcarchieve.mcarchieve.repository.SessionRepository;
 import com.mcarchieve.mcarchieve.repository.StoryRepository;
 import com.mcarchieve.mcarchieve.repository.UserRepository;

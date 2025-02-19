@@ -1,8 +1,8 @@
 package com.mcarchieve.mcarchieve.controller;
 
 
-import com.mcarchieve.mcarchieve.entity.session.Session;
-import com.mcarchieve.mcarchieve.entity.user.User;
+import com.mcarchieve.mcarchieve.domain.session.Session;
+import com.mcarchieve.mcarchieve.domain.user.User;
 import com.mcarchieve.mcarchieve.repository.SessionRepository;
 import com.mcarchieve.mcarchieve.dto.session.SessionRequestDto;
 import com.mcarchieve.mcarchieve.service.JwtService;

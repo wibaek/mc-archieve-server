@@ -1,6 +1,6 @@
 package com.mcarchieve.mcarchieve.dto.user;
 
-import com.mcarchieve.mcarchieve.entity.user.Profile;
+import com.mcarchieve.mcarchieve.domain.user.Profile;
 
 import lombok.Getter;
 import lombok.Setter;

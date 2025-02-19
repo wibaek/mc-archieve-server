@@ -2,7 +2,7 @@ package com.mcarchieve.mcarchieve.controller;
 
 import com.mcarchieve.mcarchieve.dto.user.LoginDto;
 import com.mcarchieve.mcarchieve.dto.user.SignupDto;
-import com.mcarchieve.mcarchieve.entity.user.User;
+import com.mcarchieve.mcarchieve.domain.user.User;
 import com.mcarchieve.mcarchieve.service.JwtService;
 import com.mcarchieve.mcarchieve.service.UserService;
 

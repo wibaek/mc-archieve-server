@@ -1,6 +1,6 @@
 package com.mcarchieve.mcarchieve.dto.session;
 
-import com.mcarchieve.mcarchieve.entity.session.Story;
+import com.mcarchieve.mcarchieve.domain.session.Story;
 
 import lombok.*;
 
