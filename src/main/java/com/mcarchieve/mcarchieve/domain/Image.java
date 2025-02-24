@@ -19,4 +19,10 @@ public class Image {
 
     @Column
     private Long size;
+
+    public Image(String path, String originalFileName, Long size) {
+        this.path = path;
+        this.originalFileName = originalFileName;
+        this.size = size;
+    }
 }
