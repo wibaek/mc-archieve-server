@@ -28,8 +28,9 @@ public class S3ImageStorageService implements ImageStorageService {
 
     @Override
     public Image storeImage(MultipartFile file, FileUploadPath path) {
+        String ext = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
         String uniqueFileName = UUID.randomUUID().toString();
-        String key = path.getPath() + uniqueFileName;
+        String key = path.getPath() + uniqueFileName + ext;
         return uploadImage(file, key);
     }
 
