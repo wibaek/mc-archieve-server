@@ -15,6 +15,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class StoryService {
@@ -43,18 +46,11 @@ public class StoryService {
 
         return StoryResponse.from(story);
     }
-//
-//    public List<StoryResponseDto> findStoriesBySessionId(Long id) {
-//        List<Story> stories = storyRepository.findBySessionId(id);
-//        List<StoryResponseDto> storyResponseDtos = new java.util.ArrayList<>();
-//
-//        for (Story story : stories) {
-//            StoryResponseDto storyResponseDto = StoryResponseDto.fromEntity(story, imageRepositoryUri);
-//            storyResponseDtos.add(storyResponseDto);
-//        }
-//
-//        return storyResponseDtos;
-//    }
 
-
+    public List<StoryResponse> findStoriesBySessionId(Long id) {
+        return storyRepository.findBySessionId(id)
+                .stream()
+                .map(StoryResponse::from)
+                .collect(Collectors.toList());
+    }
 }
