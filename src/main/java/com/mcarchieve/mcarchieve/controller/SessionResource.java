@@ -1,22 +1,20 @@
 package com.mcarchieve.mcarchieve.controller;
 
+import com.mcarchieve.mcarchieve.domain.user.User;
 import com.mcarchieve.mcarchieve.dto.session.SessionRequestDto;
 import com.mcarchieve.mcarchieve.dto.session.SessionResponseDto;
 import com.mcarchieve.mcarchieve.dto.session.StoryRequestDto;
-import com.mcarchieve.mcarchieve.dto.session.StoryResponseDto;
-import com.mcarchieve.mcarchieve.domain.user.User;
 import com.mcarchieve.mcarchieve.repository.UserRepository;
 import com.mcarchieve.mcarchieve.service.SessionService;
 import com.mcarchieve.mcarchieve.service.StoryService;
-
-import java.net.URI;
-import java.security.Principal;
-import java.util.List;
-
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
+import java.security.Principal;
+import java.util.List;
 
 
 @RestController

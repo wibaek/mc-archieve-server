@@ -38,8 +38,7 @@ public class StoryService {
 
         return StoryResponse.from(story);
     }
-
-
+    
     public StoryResponse findStoryById(Long id) {
         Story story = storyRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("스토리를 찾을 수 없습니다."));
