@@ -2,7 +2,7 @@ package com.mcarchieve.mcarchieve.controller;
 
 import com.mcarchieve.mcarchieve.domain.user.User;
 import com.mcarchieve.mcarchieve.dto.session.StoryCreateRequest;
-import com.mcarchieve.mcarchieve.dto.session.StoryCreateResponse;
+import com.mcarchieve.mcarchieve.dto.session.StoryResponse;
 import com.mcarchieve.mcarchieve.repository.UserRepository;
 import com.mcarchieve.mcarchieve.service.StoryService;
 import jakarta.validation.Valid;
@@ -24,7 +24,7 @@ public class StoryController {
     private final UserRepository UserRepository;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<StoryCreateResponse> createStory(
+    public ResponseEntity<StoryResponse> createStory(
             @RequestPart("request") @Valid StoryCreateRequest request,
             @RequestPart(value = "file") MultipartFile imageFile) {
 
@@ -32,7 +32,7 @@ public class StoryController {
         User user = UserRepository.findById(1L)
                 .orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
 
-        StoryCreateResponse response = storyService.createStory(request, imageFile, user);
+        StoryResponse response = storyService.createStory(request, imageFile, user);
         return ResponseEntity.ok(response);
     }
 

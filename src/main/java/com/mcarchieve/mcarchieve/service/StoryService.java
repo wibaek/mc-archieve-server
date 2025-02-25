@@ -5,7 +5,7 @@ import com.mcarchieve.mcarchieve.domain.session.Session;
 import com.mcarchieve.mcarchieve.domain.session.Story;
 import com.mcarchieve.mcarchieve.domain.user.User;
 import com.mcarchieve.mcarchieve.dto.session.StoryCreateRequest;
-import com.mcarchieve.mcarchieve.dto.session.StoryCreateResponse;
+import com.mcarchieve.mcarchieve.dto.session.StoryResponse;
 import com.mcarchieve.mcarchieve.repository.SessionRepository;
 import com.mcarchieve.mcarchieve.repository.StoryRepository;
 import com.mcarchieve.mcarchieve.service.image.FileUploadPath;
@@ -24,7 +24,7 @@ public class StoryService {
     private final ImageStorageService imageStorageService;
 
     @Transactional
-    public StoryCreateResponse createStory(StoryCreateRequest storyCreateRequest, MultipartFile imageFile, User user) {
+    public StoryResponse createStory(StoryCreateRequest storyCreateRequest, MultipartFile imageFile, User user) {
         Session session = sessionRepository.findById(storyCreateRequest.sessionId())
                 .orElseThrow(() -> new RuntimeException("<" + storyCreateRequest.sessionId() + ">는 유효하지 않은 세션 ID 입니다."));
 
@@ -33,14 +33,14 @@ public class StoryService {
         Story story = storyCreateRequest.toEntity(image, user, session);
         story = storyRepository.save(story);
 
-        return StoryCreateResponse.from(story);
+        return StoryResponse.from(story);
     }
 
 
-//    public StoryResponseDto findStoryById(Long id) {
+//    public StoryResponse findStoryById(Long id) {
 //        Story story = storyRepository.findById(id).orElseThrow(() -> new RuntimeException("Story not found"));
 //
-//        return StoryResponseDto.fromEntity(story, imageRepositoryUri);
+//        return StoryResponse.fromEntity(story, imageRepositoryUri);
 //    }
 //
 //    public List<StoryResponseDto> findStoriesBySessionId(Long id) {
