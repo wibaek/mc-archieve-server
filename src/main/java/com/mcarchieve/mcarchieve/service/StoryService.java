@@ -37,11 +37,12 @@ public class StoryService {
     }
 
 
-//    public StoryResponse findStoryById(Long id) {
-//        Story story = storyRepository.findById(id).orElseThrow(() -> new RuntimeException("Story not found"));
-//
-//        return StoryResponse.fromEntity(story, imageRepositoryUri);
-//    }
+    public StoryResponse findStoryById(Long id) {
+        Story story = storyRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("스토리를 찾을 수 없습니다."));
+
+        return StoryResponse.from(story);
+    }
 //
 //    public List<StoryResponseDto> findStoriesBySessionId(Long id) {
 //        List<Story> stories = storyRepository.findBySessionId(id);
