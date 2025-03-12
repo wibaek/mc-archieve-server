@@ -1,15 +1,14 @@
 package com.mcarchieve.mcarchieve.service;
 
-import com.mcarchieve.mcarchieve.dto.user.SignupDto;
-import com.mcarchieve.mcarchieve.dto.user.UserDto;
 import com.mcarchieve.mcarchieve.domain.user.Password;
 import com.mcarchieve.mcarchieve.domain.user.Profile;
 import com.mcarchieve.mcarchieve.domain.user.User;
+import com.mcarchieve.mcarchieve.dto.user.MyInfoResponse;
+import com.mcarchieve.mcarchieve.dto.user.SignupDto;
 import com.mcarchieve.mcarchieve.repository.PasswordRepository;
 import com.mcarchieve.mcarchieve.repository.ProfileRepository;
 import com.mcarchieve.mcarchieve.repository.UserRepository;
 import com.mcarchieve.mcarchieve.type.LoginType;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,9 +27,9 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public UserDto getUserByEmail(String email) {
+    public MyInfoResponse getUserByEmail(String email) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
-        return new UserDto(user);
+        return new MyInfoResponse(user);
     }
 
     public User signup(SignupDto signupDto) {
