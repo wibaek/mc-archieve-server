@@ -6,14 +6,12 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Session extends BaseEntity {
@@ -35,8 +33,11 @@ public class Session extends BaseEntity {
     private LocalDate startDate;
     private LocalDate endDate;
 
-    public Session(String name, User owner) {
+    public Session(String name, User owner, LocalDate startDate, LocalDate endDate) {
         this.name = name;
         this.owner = owner;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
+
 }

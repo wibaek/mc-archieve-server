@@ -30,6 +30,7 @@ public class StoryController {
                 .orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
 
         StoryResponse response = storyService.createStory(request, imageFile, user);
+        // TODO: .created() 메소드를 사용하여 생성된 리소스의 URI를 반환하도록 수정
         return ResponseEntity.ok(response);
     }
 
