@@ -28,8 +28,8 @@ public class UserService {
     }
 
     public MyInfoResponse getUserByEmail(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
-        return new MyInfoResponse(user);
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
+        return MyInfoResponse.from(user);
     }
 
     public User signup(SignupDto signupDto) {

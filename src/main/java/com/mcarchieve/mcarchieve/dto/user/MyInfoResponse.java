@@ -2,35 +2,24 @@ package com.mcarchieve.mcarchieve.dto.user;
 
 import com.mcarchieve.mcarchieve.domain.user.User;
 import com.mcarchieve.mcarchieve.type.LoginType;
-import lombok.Getter;
-import lombok.Setter;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
-@Getter
-@Setter
-public class MyInfoResponse {
-    private Long id;
-    private String email;
-    private LoginType loginType;
-    private Instant joinDate;
-    private ProfileDto profile;
+public record MyInfoResponse(
+        Long id,
+        String email,
+        LoginType loginType,
+        LocalDateTime joinDate,
+        ProfileResponse profile
+) {
 
-    public MyInfoResponse(Long id, String email, LoginType loginType, Instant joinDate, ProfileDto profile) {
-        this.id = id;
-        this.email = email;
-        this.loginType = loginType;
-        this.joinDate = joinDate;
-        this.profile = profile;
-    }
-
-    public MyInfoResponse(User user) {
-        this.id = user.getId();
-        this.email = user.getEmail();
-//        this.password = user.getPassword();
-        this.profile = ProfileDto.fromEntity(user.getProfile());
-//        this.player = user.getPlayer();
-        this.loginType = user.getLoginType();
-        this.joinDate = user.getJoinDate();
+    public static MyInfoResponse from(User user) {
+        return new MyInfoResponse(
+                user.getId(),
+                user.getEmail(),
+                user.getLoginType(),
+                user.getCreatedAt(),
+                ProfileResponse.from(user)
+        );
     }
 }
