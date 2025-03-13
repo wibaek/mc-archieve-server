@@ -27,6 +27,7 @@ public class Profile {
 
     public Profile(User user, String nickname) {
         this.user = user;
+        user.setProfile(this);
         this.nickname = nickname;
     }
 }
