@@ -30,6 +30,7 @@ public class UserService {
 
         Password password = new Password(passwordEncoder.encode(emailSignUpRequest.password()));
         User user = User.createEmailUser(emailSignUpRequest.email(), password, emailSignUpRequest.nickname());
+        userRepository.save(user);
         return user;
     }
 }

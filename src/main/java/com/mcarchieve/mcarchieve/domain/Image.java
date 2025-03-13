@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Embeddable
 public class Image {
 
-    @Column(nullable = false)
+    @Column()
     private String path;
 
     @Column

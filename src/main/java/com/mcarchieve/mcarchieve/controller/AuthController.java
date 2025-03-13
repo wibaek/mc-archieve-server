@@ -6,6 +6,7 @@ import com.mcarchieve.mcarchieve.dto.user.EmailSignUpRequest;
 import com.mcarchieve.mcarchieve.dto.user.ProfileResponse;
 import com.mcarchieve.mcarchieve.service.JwtService;
 import com.mcarchieve.mcarchieve.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -40,7 +41,7 @@ public class AuthController {
     }
 
     @PostMapping("/v1/signup")
-    public ResponseEntity<ProfileResponse> basicSignup(@RequestBody EmailSignUpRequest emailSignUpRequest) {
+    public ResponseEntity<ProfileResponse> basicSignup(@RequestBody @Valid EmailSignUpRequest emailSignUpRequest) {
         User user = userService.signUp(emailSignUpRequest);
 
         // TODO: 프로필 반환에서 변경 필요
