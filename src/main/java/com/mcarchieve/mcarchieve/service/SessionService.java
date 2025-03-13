@@ -1,15 +1,13 @@
 package com.mcarchieve.mcarchieve.service;
 
 import com.mcarchieve.mcarchieve.domain.session.Session;
-import com.mcarchieve.mcarchieve.dto.session.SessionRequestDto;
-import com.mcarchieve.mcarchieve.dto.session.SessionResponseDto;
 import com.mcarchieve.mcarchieve.domain.user.User;
+import com.mcarchieve.mcarchieve.dto.session.SessionCreateRequest;
+import com.mcarchieve.mcarchieve.dto.session.SessionResponse;
 import com.mcarchieve.mcarchieve.repository.SessionRepository;
-
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,32 +19,23 @@ public class SessionService {
         this.sessionRepository = sessionRepository;
     }
 
-    public SessionResponseDto createSession(SessionRequestDto sessionDto, User user) {
-        Session session = sessionDto.toEntity();
-        session.setOwner(user);
+    public SessionResponse createSession(SessionCreateRequest sessionCreateRequest, User owner) {
+        Session session = sessionCreateRequest.toEntity(owner);
         session = sessionRepository.save(session);
-        return SessionResponseDto.fromEntity(session);
+        return SessionResponse.from(session);
     }
 
-    public List<SessionResponseDto> findAllSessions() {
-        List<Session> sessions = sessionRepository.findAll();
-        return sessions.stream()
-                .map(SessionResponseDto::fromEntity)
+    public List<SessionResponse> findAllSessions() {
+        return sessionRepository.findAll()
+                .stream()
+                .map(SessionResponse::from)
                 .collect(Collectors.toList());
     }
 
-    public SessionResponseDto findSessionById(Long id) {
-        Session session = sessionRepository.findById(id).orElse(null);
-        return session != null ? SessionResponseDto.fromEntity(session) : null;
-    }
+    public SessionResponse findSessionById(Long id) {
+        Session session = sessionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("세션을 찾을 수 없습니다."));
 
-    public boolean deleteSessionById(Long id) {
-        Optional<Session> session = sessionRepository.findById(id);
-        if (session.isPresent()) {
-            sessionRepository.delete(session.get());
-            return true;
-        } else {
-            return false;
-        }
+        return SessionResponse.from(session);
     }
 }

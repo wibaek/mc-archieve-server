@@ -1,37 +1,35 @@
 package com.mcarchieve.mcarchieve.controller;
 
-import com.mcarchieve.mcarchieve.dto.user.LoginDto;
-import com.mcarchieve.mcarchieve.dto.user.SignupDto;
 import com.mcarchieve.mcarchieve.domain.user.User;
+import com.mcarchieve.mcarchieve.dto.user.EmailLoginRequest;
+import com.mcarchieve.mcarchieve.dto.user.EmailSignUpRequest;
+import com.mcarchieve.mcarchieve.dto.user.ProfileResponse;
 import com.mcarchieve.mcarchieve.service.JwtService;
 import com.mcarchieve.mcarchieve.service.UserService;
-
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 public class AuthController {
 
-    JwtService jwtService;
-
-    UserService userService;
-
-    AuthenticationManagerBuilder authenticationManagerBuilder;
-
-    public AuthController(JwtService jwtService, UserService userService, AuthenticationManagerBuilder authenticationManagerBuilder) {
-        this.jwtService = jwtService;
-        this.userService = userService;
-        this.authenticationManagerBuilder = authenticationManagerBuilder;
-    }
+    private final JwtService jwtService;
+    private final UserService userService;
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
     @PostMapping("/v1/login")
-    public String authenticate(@RequestBody LoginDto loginDto) {
+    public String authenticate(@RequestBody EmailLoginRequest emailLoginRequest) {
 
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(emailLoginRequest.email(), emailLoginRequest.password());
 
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
@@ -43,9 +41,11 @@ public class AuthController {
     }
 
     @PostMapping("/v1/signup")
-    public ResponseEntity<User> basicSignup(@RequestBody SignupDto signupDto) {
+    public ResponseEntity<ProfileResponse> basicSignup(@RequestBody @Valid EmailSignUpRequest emailSignUpRequest) {
+        User user = userService.signUp(emailSignUpRequest);
 
-        return ResponseEntity.ok(userService.signup(signupDto));
+        // TODO: 프로필 반환에서 변경 필요
+        return ResponseEntity.ok(ProfileResponse.from(user));
     }
 
     @PostMapping("/v1/validate")

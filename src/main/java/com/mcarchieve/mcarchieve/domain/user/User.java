@@ -1,7 +1,6 @@
 package com.mcarchieve.mcarchieve.domain.user;
 
 import com.mcarchieve.mcarchieve.domain.BaseEntity;
-import com.mcarchieve.mcarchieve.type.LoginType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -10,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 public class User extends BaseEntity {
 
     @Id
@@ -35,8 +34,28 @@ public class User extends BaseEntity {
     @JoinColumn(name = "player_id", nullable = true)
     private Player player;
 
-    public User(LoginType loginType, Profile profile) {
+    private User(LoginType loginType) {
         this.loginType = loginType;
+    }
+
+    public void setPassword(Password password) {
+        this.password = password;
+    }
+
+    public void setProfile(Profile profile) {
         this.profile = profile;
+    }
+
+    public static User createUser(LoginType loginType, String nickname) {
+        User user = new User(loginType);
+        Profile profile = new Profile(user, nickname);
+        return user;
+    }
+
+    public static User createEmailUser(String email, Password password, String nickname) {
+        User user = createUser(LoginType.BASIC, nickname);
+        user.email = email;
+        user.password = password;
+        return user;
     }
 }

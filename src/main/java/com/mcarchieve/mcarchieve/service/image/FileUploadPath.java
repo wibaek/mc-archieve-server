@@ -1,9 +1,10 @@
-package com.mcarchieve.mcarchieve.type;
+package com.mcarchieve.mcarchieve.service.image;
 
 public enum FileUploadPath {
-    STORY("story");
+    STORY("story/"),
+    PROFILE("profile/");
 
-    private String path;
+    private final String path;
 
     FileUploadPath(String path) {
         this.path = path;
