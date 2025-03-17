@@ -1,6 +1,7 @@
 package com.mcarchieve.mcarchieve.config;
 
 import com.mcarchieve.mcarchieve.service.JwtService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,16 +19,11 @@ import java.util.Arrays;
 
 
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfiguration {
 
-    private JwtAuthenticationFilter jwtAuthenticationFilter;
-
-    private JwtService jwtService;
-
-    public SecurityConfiguration(JwtAuthenticationFilter jwtAuthenticationFilter, JwtService jwtService) {
-        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-        this.jwtService = jwtService;
-    }
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtService jwtService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
