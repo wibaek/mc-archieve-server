@@ -4,6 +4,8 @@ import com.mcarchieve.mcarchieve.domain.user.Password;
 import com.mcarchieve.mcarchieve.domain.user.User;
 import com.mcarchieve.mcarchieve.dto.user.EmailSignUpRequest;
 import com.mcarchieve.mcarchieve.dto.user.MyInfoResponse;
+import com.mcarchieve.mcarchieve.exception.CustomException;
+import com.mcarchieve.mcarchieve.exception.ErrorCode;
 import com.mcarchieve.mcarchieve.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -24,13 +26,28 @@ public class UserService {
 
     @Transactional
     public User signUp(EmailSignUpRequest emailSignUpRequest) {
-        if (userRepository.findByEmail(emailSignUpRequest.email()).orElse(null) != null) {
-            throw new RuntimeException("이미 가입되어 있는 유저입니다.");
-        }
+        validateEmail(emailSignUpRequest.email());
+        validatePassword(emailSignUpRequest.password());
 
         Password password = new Password(passwordEncoder.encode(emailSignUpRequest.password()));
         User user = User.createEmailUser(emailSignUpRequest.email(), password, emailSignUpRequest.nickname());
         userRepository.save(user);
         return user;
+    }
+
+    private void validateEmail(String email) {
+        if (userRepository.findByEmail(email).orElse(null) != null) {
+            throw new CustomException(ErrorCode.EMAIL_ALREADY_EXISTS);
+        }
+
+        if (!email.contains("@")) {
+            throw new CustomException(ErrorCode.INVALID_EMAIL_FORMAT);
+        }
+    }
+
+    private void validatePassword(String password) {
+        if (password.length() < 8) {
+            throw new CustomException(ErrorCode.INVALID_PASSWORD_FORMAT);
+        }
     }
 }
