@@ -23,8 +23,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         return ResponseEntity.status(ex.getErrorCode().getHttpStatus()).body(errorResponse);
     }
-
-    @Nullable
+    
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, @Nullable Object body, HttpHeaders headers, HttpStatusCode statusCode, WebRequest request) {
         log.error("Spring Exception: ", ex);
