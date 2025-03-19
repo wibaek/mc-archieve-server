@@ -33,3 +33,4 @@ cloud:
       endpoint: https://~.r2.cloudflarestorage.com
     r2:
       bucket: bucket-name
+      uri: https://example.image.wibaek.com
