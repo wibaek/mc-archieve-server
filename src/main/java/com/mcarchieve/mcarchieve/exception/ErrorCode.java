@@ -19,6 +19,7 @@ public enum ErrorCode {
 
     // Session
     SESSION_NOT_FOUND(HttpStatus.NOT_FOUND, "세션을 찾을 수 없습니다."),
+    NOT_SESSION_MEMBER(HttpStatus.FORBIDDEN, "해당 세션의 멤버가 아닙니다."),
 
     SESSION_REQUEST_NOT_FOUND(HttpStatus.NOT_FOUND, "세션 참가 요청을 찾을 수 없습니다."),
     ALREADY_REQUESTED_TO_JOIN_SESSION(HttpStatus.BAD_REQUEST, "이미 세션 참가 요청을 보냈습니다."),

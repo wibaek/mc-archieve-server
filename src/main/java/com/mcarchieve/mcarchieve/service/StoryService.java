@@ -2,10 +2,13 @@ package com.mcarchieve.mcarchieve.service;
 
 import com.mcarchieve.mcarchieve.domain.Image;
 import com.mcarchieve.mcarchieve.domain.session.Session;
+import com.mcarchieve.mcarchieve.domain.session.SessionMember;
 import com.mcarchieve.mcarchieve.domain.session.Story;
 import com.mcarchieve.mcarchieve.domain.user.User;
 import com.mcarchieve.mcarchieve.dto.session.StoryCreateRequest;
 import com.mcarchieve.mcarchieve.dto.session.StoryResponse;
+import com.mcarchieve.mcarchieve.exception.CustomException;
+import com.mcarchieve.mcarchieve.exception.ErrorCode;
 import com.mcarchieve.mcarchieve.repository.SessionRepository;
 import com.mcarchieve.mcarchieve.repository.StoryRepository;
 import com.mcarchieve.mcarchieve.service.image.FileUploadPath;
@@ -29,7 +32,11 @@ public class StoryService {
     @Transactional
     public StoryResponse createStory(StoryCreateRequest storyCreateRequest, MultipartFile imageFile, User user) {
         Session session = sessionRepository.findById(storyCreateRequest.sessionId())
-                .orElseThrow(() -> new RuntimeException("<" + storyCreateRequest.sessionId() + ">는 유효하지 않은 세션 ID 입니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.SESSION_NOT_FOUND));
+
+        if (!session.isMember(user)) {
+            throw new CustomException(ErrorCode.NOT_SESSION_MEMBER);
+        }
 
         Image image = imageStorageService.storeImage(imageFile, FileUploadPath.STORY);
 
