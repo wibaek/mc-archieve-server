@@ -25,8 +25,24 @@ public class SessionMember extends BaseEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private MemberStatus status = MemberStatus.PENDING;
+
     public SessionMember(Session session, User user) {
         this.session = session;
         this.user = user;
+    }
+
+    public void approveRequest() {
+        this.status = MemberStatus.APPROVED;
+    }
+
+    public void rejectRequest() {
+        this.status = MemberStatus.REJECTED;
+    }
+
+    public boolean isMember() {
+        return this.status == MemberStatus.APPROVED;
     }
 }

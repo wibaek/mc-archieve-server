@@ -43,4 +43,10 @@ public class Session extends BaseEntity {
         this.endDate = endDate;
     }
 
+    private boolean isMember(User user) {
+        return this.members.stream()
+                .anyMatch(member ->
+                        member.getUser().getId().equals(user.getId()) &&
+                                member.isMember());
+    }
 }
