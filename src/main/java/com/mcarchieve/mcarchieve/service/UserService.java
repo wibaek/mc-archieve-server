@@ -2,7 +2,7 @@ package com.mcarchieve.mcarchieve.service;
 
 import com.mcarchieve.mcarchieve.domain.user.Password;
 import com.mcarchieve.mcarchieve.domain.user.User;
-import com.mcarchieve.mcarchieve.dto.user.EmailSignUpRequest;
+import com.mcarchieve.mcarchieve.dto.auth.EmailSignUpRequest;
 import com.mcarchieve.mcarchieve.dto.user.MyInfoResponse;
 import com.mcarchieve.mcarchieve.exception.CustomException;
 import com.mcarchieve.mcarchieve.exception.ErrorCode;
