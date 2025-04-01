@@ -30,8 +30,13 @@ public class SessionMember extends BaseEntity {
     private MemberStatus status = MemberStatus.PENDING;
 
     public SessionMember(Session session, User user) {
+        this(session, user, MemberStatus.PENDING);
+    }
+
+    public SessionMember(Session session, User user, MemberStatus status) {
         this.session = session;
         this.user = user;
+        this.status = status;
     }
 
     public void approveRequest() {

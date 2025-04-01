@@ -4,6 +4,8 @@ import com.mcarchieve.mcarchieve.domain.user.User;
 import com.mcarchieve.mcarchieve.dto.session.SessionCreateRequest;
 import com.mcarchieve.mcarchieve.dto.session.SessionResponse;
 import com.mcarchieve.mcarchieve.dto.session.StoryResponse;
+import com.mcarchieve.mcarchieve.exception.CustomException;
+import com.mcarchieve.mcarchieve.exception.ErrorCode;
 import com.mcarchieve.mcarchieve.repository.UserRepository;
 import com.mcarchieve.mcarchieve.service.SessionService;
 import com.mcarchieve.mcarchieve.service.StoryService;
@@ -29,6 +31,7 @@ public class SessionController {
     @PostMapping
     public ResponseEntity<SessionResponse> createSession(@Valid @RequestBody SessionCreateRequest sessionCreateRequest, Principal principal) {
         User user = userRepository.findByEmail(principal.getName()).orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
+
         SessionResponse response = sessionService.createSession(sessionCreateRequest, user);
         // TODO: .created() 메소드를 사용하여 생성된 리소스의 URI를 반환하도록 수정
         return ResponseEntity.ok(response);
@@ -46,11 +49,44 @@ public class SessionController {
         return ResponseEntity.ok(session);
     }
 
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<?> deleteSession(@PathVariable Long id) {
-//        boolean isDeleted = sessionService.deleteSessionById(id);
-//        return isDeleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
-//    }
+    //    @DeleteMapping("/{id}")
+    //    public ResponseEntity<?> deleteSession(@PathVariable Long id) {
+    //        boolean isDeleted = sessionService.deleteSessionById(id);
+    //        return isDeleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+    //    }
+
+    // 세션 참가 신청 관련
+    @PostMapping("/{id}/join")
+    public ResponseEntity<?> requestToJoinSession(@PathVariable Long id, Principal principal) {
+         User user = userRepository.findByEmail(principal.getName()).orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
+
+        sessionService.requestToJoinSession(id, user);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{sessionId}/members/{userId}/approve")
+    public ResponseEntity<?> approveJoinRequest(
+            @PathVariable Long sessionId,
+            @PathVariable Long userId,
+            Principal principal) {
+        User requester = userRepository.findByEmail(principal.getName())
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        sessionService.approveJoinRequest(sessionId, userId, requester);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{sessionId}/members/{userId}/reject")
+    public ResponseEntity<?> rejectJoinRequest(
+            @PathVariable Long sessionId,
+            @PathVariable Long userId,
+            Principal principal) {
+        User requester = userRepository.findByEmail(principal.getName())
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        sessionService.rejectJoinRequest(sessionId, userId, requester);
+        return ResponseEntity.ok().build();
+    }
 
     @GetMapping("/{id}/stories")
     public ResponseEntity<List<StoryResponse>> getStoriesBySessionId(@PathVariable Long id) {
