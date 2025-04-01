@@ -28,6 +28,9 @@ public class Session extends BaseEntity {
     private User owner;
 
     @OneToMany(mappedBy = "session")
+    private List<SessionMember> members = new ArrayList<>();
+
+    @OneToMany(mappedBy = "session")
     private List<Story> stories = new ArrayList<>();
 
     private LocalDate startDate;

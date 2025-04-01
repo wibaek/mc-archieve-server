@@ -1,10 +1,14 @@
 package com.mcarchieve.mcarchieve.domain.user;
 
 import com.mcarchieve.mcarchieve.domain.BaseEntity;
+import com.mcarchieve.mcarchieve.domain.session.SessionMember;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -33,6 +37,9 @@ public class User extends BaseEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "player_id", nullable = true)
     private Player player;
+
+    @OneToMany(mappedBy = "user")
+    private List<SessionMember> sessions = new ArrayList<>();
 
     private User(LoginType loginType) {
         this.loginType = loginType;

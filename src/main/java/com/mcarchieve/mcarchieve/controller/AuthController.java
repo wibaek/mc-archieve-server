@@ -33,7 +33,6 @@ public class AuthController {
     @PostMapping("/v1/login")
     public ResponseEntity<LoginResponse> authenticate(@RequestBody @Valid EmailLoginRequest emailLoginRequest) {
         try {
-
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(emailLoginRequest.email(), emailLoginRequest.password());
 
             Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
