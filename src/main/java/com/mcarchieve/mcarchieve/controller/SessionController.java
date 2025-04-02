@@ -43,6 +43,13 @@ public class SessionController {
         return ResponseEntity.ok(sessions);
     }
 
+    @GetMapping("/my")
+    public ResponseEntity<List<SessionResponse>> getAllMySessions(Principal principal) {
+        User user = userRepository.findByEmail(principal.getName()).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+        List<SessionResponse> sessions = sessionService.findAllMySessions(user);
+        return ResponseEntity.ok(sessions);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<SessionResponse> getSessionById(@PathVariable Long id) {
         SessionResponse session = sessionService.findSessionById(id);
@@ -58,7 +65,7 @@ public class SessionController {
     // 세션 참가 신청 관련
     @PostMapping("/{id}/join")
     public ResponseEntity<?> requestToJoinSession(@PathVariable Long id, Principal principal) {
-         User user = userRepository.findByEmail(principal.getName()).orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
+        User user = userRepository.findByEmail(principal.getName()).orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
 
         sessionService.requestToJoinSession(id, user);
         return ResponseEntity.ok().build();

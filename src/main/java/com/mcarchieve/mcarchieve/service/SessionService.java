@@ -42,6 +42,13 @@ public class SessionService {
                 .collect(Collectors.toList());
     }
 
+    public List<SessionResponse> findAllMySessions(User user) {
+        return sessionMemberRepository.findAllByUser(user)
+                .stream()
+                .map(sessionMember -> SessionResponse.from(sessionMember.getSession()))
+                .collect(Collectors.toList());
+    }
+
     public SessionResponse findSessionById(Long id) {
         Session session = sessionRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.SESSION_NOT_FOUND));
