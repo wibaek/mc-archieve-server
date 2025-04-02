@@ -15,6 +15,7 @@ import com.mcarchieve.mcarchieve.service.image.FileUploadPath;
 import com.mcarchieve.mcarchieve.service.image.ImageStorageService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,6 +29,9 @@ public class StoryService {
     private final StoryRepository storyRepository;
     private final SessionRepository sessionRepository;
     private final ImageStorageService imageStorageService;
+
+    @Value("${cloud.cloudflare.r2.url}")
+    private String storageUri;
 
     @Transactional
     public StoryResponse createStory(StoryCreateRequest storyCreateRequest, MultipartFile imageFile, User user) {
@@ -43,20 +47,20 @@ public class StoryService {
         Story story = storyCreateRequest.toEntity(image, user, session);
         story = storyRepository.save(story);
 
-        return StoryResponse.from(story);
+        return StoryResponse.from(story, storageUri);
     }
     
     public StoryResponse findStoryById(Long id) {
         Story story = storyRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("스토리를 찾을 수 없습니다."));
 
-        return StoryResponse.from(story);
+        return StoryResponse.from(story, storageUri);
     }
 
     public List<StoryResponse> findStoriesBySessionId(Long id) {
         return storyRepository.findBySessionId(id)
                 .stream()
-                .map(StoryResponse::from)
+                .map(story -> StoryResponse.from(story, storageUri))
                 .collect(Collectors.toList());
     }
 }
