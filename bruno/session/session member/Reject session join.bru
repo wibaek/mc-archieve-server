@@ -1,0 +1,11 @@
+meta {
+  name: Reject session join
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{URL}}/v1/sessions/1/members/2/reject
+  body: none
+  auth: inherit
+}
