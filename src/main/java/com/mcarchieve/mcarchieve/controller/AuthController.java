@@ -17,12 +17,10 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/v1/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
@@ -30,10 +28,9 @@ public class AuthController {
     private final UserService userService;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    @PostMapping("/v1/login")
+    @PostMapping("/login")
     public ResponseEntity<LoginResponse> authenticate(@RequestBody @Valid EmailLoginRequest emailLoginRequest) {
         try {
-
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(emailLoginRequest.email(), emailLoginRequest.password());
 
             Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
@@ -48,7 +45,7 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/v1/signup")
+    @PostMapping("/signup")
     public ResponseEntity<ProfileResponse> basicSignup(@RequestBody @Valid EmailSignUpRequest emailSignUpRequest) {
         User user = userService.signUp(emailSignUpRequest);
 
@@ -56,7 +53,7 @@ public class AuthController {
         return ResponseEntity.ok(ProfileResponse.from(user));
     }
 
-    @PostMapping("/v1/validate")
+    @PostMapping("/validate")
     public boolean validateToken(@RequestParam("jwt") String jwt) {
         return jwtService.isValidToken(jwt);
     }

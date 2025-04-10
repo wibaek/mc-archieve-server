@@ -1,7 +1,7 @@
 meta {
   name: Create story
   type: http
-  seq: 3
+  seq: 2
 }
 
 post {
@@ -14,17 +14,10 @@ auth:bearer {
   token: {{ACCESS_TOKEN}}
 }
 
-body:json {
-  {
-    "sessionId": 1
-  }
-}
-
 body:multipart-form {
   request: '''
-    {
-      "sessionId": 1,
-      "caption": "캡션~"
+    {"sessionId": 2,
+    "caption": "abc"
     }
   ''' @contentType(application/json)
   file: @file(/Users/wibaek/Library/Mobile Documents/com~apple~CloudDocs/Downloads/dummy images/pocketmon.jpg)

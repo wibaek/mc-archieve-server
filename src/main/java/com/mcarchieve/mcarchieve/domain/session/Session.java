@@ -28,6 +28,9 @@ public class Session extends BaseEntity {
     private User owner;
 
     @OneToMany(mappedBy = "session")
+    private List<SessionMember> members = new ArrayList<>();
+
+    @OneToMany(mappedBy = "session")
     private List<Story> stories = new ArrayList<>();
 
     private LocalDate startDate;
@@ -40,4 +43,10 @@ public class Session extends BaseEntity {
         this.endDate = endDate;
     }
 
+    public boolean isMember(User user) {
+        return this.members.stream()
+                .anyMatch(member ->
+                        member.getUser().getId().equals(user.getId()) &&
+                                member.isMember());
+    }
 }

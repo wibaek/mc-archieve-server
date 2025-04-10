@@ -3,6 +3,8 @@ package com.mcarchieve.mcarchieve.controller;
 import com.mcarchieve.mcarchieve.domain.user.User;
 import com.mcarchieve.mcarchieve.dto.session.StoryCreateRequest;
 import com.mcarchieve.mcarchieve.dto.session.StoryResponse;
+import com.mcarchieve.mcarchieve.exception.CustomException;
+import com.mcarchieve.mcarchieve.exception.ErrorCode;
 import com.mcarchieve.mcarchieve.repository.UserRepository;
 import com.mcarchieve.mcarchieve.service.StoryService;
 import jakarta.validation.Valid;
@@ -12,22 +14,25 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.security.Principal;
+
 @RestController
 @RequestMapping("/v1/stories")
 @RequiredArgsConstructor
 public class StoryController {
 
     private final StoryService storyService;
-    private final UserRepository UserRepository;
+    private final UserRepository userRepository;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<StoryResponse> createStory(
             @RequestPart("request") @Valid StoryCreateRequest request,
-            @RequestPart(value = "file") MultipartFile imageFile) {
+            @RequestPart(value = "file") MultipartFile imageFile,
+            Principal principal
+    ) {
 
-        // TODO: 유저 정보 가져오기
-        User user = UserRepository.findById(1L)
-                .orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
+        User user = userRepository.findByEmail(principal.getName())
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         StoryResponse response = storyService.createStory(request, imageFile, user);
         // TODO: .created() 메소드를 사용하여 생성된 리소스의 URI를 반환하도록 수정

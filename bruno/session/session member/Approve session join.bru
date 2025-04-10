@@ -1,0 +1,15 @@
+meta {
+  name: Approve session join
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{URL}}/v1/sessions/1/members/2/approve
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{ACCESS_TOKEN}}
+}
