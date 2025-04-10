@@ -1,31 +1,14 @@
+--- # secret example
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/mcdb
-    username: mcuser
-    password: mcpassword
-
-  security:
-    user:
-      name: admin
-      password: password
+  config:
+    activate:
+      on-profile: example
 
 service:
   jwt:
     secret: secret-comes-here-needs-to-be-very-long-maybe-about-100-characters-for-hsa-512-key-generation-idk
 
 cloud:
-  aws:
-    credentials:
-      access-key: access-key
-      secret-key: secret-key
-    s3:
-      bucket: bucket-name
-    region:
-      static: ap-northeast-2
-    cloudfront:
-      uri: ~
-
   cloudflare:
     credentials:
       access-key: 123
