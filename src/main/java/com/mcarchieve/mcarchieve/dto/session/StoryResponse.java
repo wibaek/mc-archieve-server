@@ -10,11 +10,11 @@ public record StoryResponse(
         ProfileResponse createdBy
 ) {
 
-    public static StoryResponse from(Story story) {
+    public static StoryResponse from(Story story, String storageUri) {
         return new StoryResponse(
                 story.getId(),
                 story.getCaption(),
-                story.getImage().getPath(), // TODO: 저장소 uri와 합치기
+                storageUri + story.getImage().getPath(),
                 ProfileResponse.from(story.getCreatedBy())
         );
     }

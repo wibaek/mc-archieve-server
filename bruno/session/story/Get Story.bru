@@ -1,0 +1,15 @@
+meta {
+  name: Get Story
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{URL}}/v1/stories/1
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{ACCESS_TOKEN}}
+}
