@@ -27,3 +27,22 @@ service:
     expiration: 900000 # 15 minutes
     secret: secret-comes-here-needs-to-be-very-long-maybe-about-100-characters-for-hsa-512-key-generation-idk
 
+cloud:
+  aws:
+    credentials:
+      access-key: access-key
+      secret-key: secret-key
+    s3:
+      bucket: bucket-name
+    region:
+      static: ap-northeast-2
+    cloudfront:
+      uri: ~
+  cloudflare:
+    credentials:
+      access-key: 123
+      secret-key: 123
+      endpoint: https://~.r2.cloudflarestorage.com
+    r2:
+      bucket: bucket-name
+      uri: https://example.image.wibaek.com
