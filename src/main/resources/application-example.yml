@@ -9,6 +9,16 @@ service:
     secret: secret-comes-here-needs-to-be-very-long-maybe-about-100-characters-for-hsa-512-key-generation-idk
 
 cloud:
+  aws:
+    credentials:
+      access-key: access-key
+      secret-key: secret-key
+    s3:
+      bucket: bucket-name
+    region:
+      static: ap-northeast-2
+    cloudfront:
+      uri: ~
   cloudflare:
     credentials:
       access-key: 123
