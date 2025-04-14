@@ -7,6 +7,7 @@ import com.mcarchieve.mcarchieve.dto.session.StoryResponse;
 import com.mcarchieve.mcarchieve.exception.CustomException;
 import com.mcarchieve.mcarchieve.exception.ErrorCode;
 import com.mcarchieve.mcarchieve.repository.UserRepository;
+import com.mcarchieve.mcarchieve.service.SessionJoinService;
 import com.mcarchieve.mcarchieve.service.SessionService;
 import com.mcarchieve.mcarchieve.service.StoryService;
 import jakarta.validation.Valid;
@@ -24,6 +25,7 @@ import java.util.List;
 public class SessionController {
 
     private final SessionService sessionService;
+    private final SessionJoinService sessionJoinService;
     private final StoryService storyService;
     private final UserRepository userRepository;
 
@@ -56,20 +58,15 @@ public class SessionController {
         return ResponseEntity.ok(session);
     }
 
-    //    @DeleteMapping("/{id}")
-    //    public ResponseEntity<?> deleteSession(@PathVariable Long id) {
-    //        boolean isDeleted = sessionService.deleteSessionById(id);
-    //        return isDeleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
-    //    }
-
     // 세션 참가 신청 관련
     @PostMapping("/{id}/join")
     public ResponseEntity<?> requestToJoinSession(@PathVariable Long id, Principal principal) {
-        User user = userRepository.findByEmail(principal.getName()).orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
+        User user = userRepository.findByEmail(principal.getName()).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        sessionService.requestToJoinSession(id, user);
+        sessionJoinService.requestToJoinSession(id, user);
         return ResponseEntity.ok().build();
     }
+
 
     @PostMapping("/{sessionId}/members/{userId}/approve")
     public ResponseEntity<?> approveJoinRequest(
@@ -79,7 +76,7 @@ public class SessionController {
         User requester = userRepository.findByEmail(principal.getName())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        sessionService.approveJoinRequest(sessionId, userId, requester);
+        sessionJoinService.approveJoinRequest(sessionId, userId, requester);
         return ResponseEntity.ok().build();
     }
 
@@ -91,7 +88,7 @@ public class SessionController {
         User requester = userRepository.findByEmail(principal.getName())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        sessionService.rejectJoinRequest(sessionId, userId, requester);
+        sessionJoinService.rejectJoinRequest(sessionId, userId, requester);
         return ResponseEntity.ok().build();
     }
 
