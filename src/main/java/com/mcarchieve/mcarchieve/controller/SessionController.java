@@ -2,6 +2,7 @@ package com.mcarchieve.mcarchieve.controller;
 
 import com.mcarchieve.mcarchieve.domain.user.User;
 import com.mcarchieve.mcarchieve.dto.session.SessionCreateRequest;
+import com.mcarchieve.mcarchieve.dto.session.SessionJoinApplicationsResponse;
 import com.mcarchieve.mcarchieve.dto.session.SessionResponse;
 import com.mcarchieve.mcarchieve.dto.session.StoryResponse;
 import com.mcarchieve.mcarchieve.exception.CustomException;
@@ -67,6 +68,13 @@ public class SessionController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/{id}/join-applications")
+    public ResponseEntity<SessionJoinApplicationsResponse> getJoinRequests(@PathVariable Long id, Principal principal) {
+        User user = userRepository.findByEmail(principal.getName()).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        SessionJoinApplicationsResponse response = sessionJoinService.findJoinRequestsBySessionId(id);
+        return ResponseEntity.ok(response);
+    }
 
     @PostMapping("/{sessionId}/members/{userId}/approve")
     public ResponseEntity<?> approveJoinRequest(

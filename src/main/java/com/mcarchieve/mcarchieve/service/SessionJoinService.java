@@ -4,6 +4,7 @@ import com.mcarchieve.mcarchieve.domain.session.MemberStatus;
 import com.mcarchieve.mcarchieve.domain.session.Session;
 import com.mcarchieve.mcarchieve.domain.session.SessionMember;
 import com.mcarchieve.mcarchieve.domain.user.User;
+import com.mcarchieve.mcarchieve.dto.session.SessionJoinApplicationsResponse;
 import com.mcarchieve.mcarchieve.exception.CustomException;
 import com.mcarchieve.mcarchieve.exception.ErrorCode;
 import com.mcarchieve.mcarchieve.repository.SessionMemberRepository;
@@ -12,6 +13,8 @@ import com.mcarchieve.mcarchieve.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +38,16 @@ public class SessionJoinService {
 
         SessionMember sessionMember = new SessionMember(session, user);
         sessionMemberRepository.save(sessionMember);
+    }
+
+    @Transactional
+    public SessionJoinApplicationsResponse findJoinRequestsBySessionId(Long sessionId) {
+        Session session = sessionRepository.findById(sessionId)
+                .orElseThrow(() -> new CustomException(ErrorCode.SESSION_NOT_FOUND));
+
+        List<SessionMember> sessionMembers = sessionMemberRepository.findAllBySessionAndStatus(session, MemberStatus.PENDING);
+
+        return SessionJoinApplicationsResponse.from(sessionMembers);
     }
 
     @Transactional
