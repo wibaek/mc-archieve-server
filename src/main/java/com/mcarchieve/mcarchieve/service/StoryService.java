@@ -2,7 +2,6 @@ package com.mcarchieve.mcarchieve.service;
 
 import com.mcarchieve.mcarchieve.domain.Image;
 import com.mcarchieve.mcarchieve.domain.session.Session;
-import com.mcarchieve.mcarchieve.domain.session.SessionMember;
 import com.mcarchieve.mcarchieve.domain.session.Story;
 import com.mcarchieve.mcarchieve.domain.user.User;
 import com.mcarchieve.mcarchieve.dto.session.StoryCreateRequest;
@@ -31,7 +30,7 @@ public class StoryService {
     private final ImageStorageService imageStorageService;
 
     @Value("${cloud.cloudflare.r2.url}")
-    private String storageUri;
+    private String storageUrl;
 
     @Transactional
     public StoryResponse createStory(StoryCreateRequest storyCreateRequest, MultipartFile imageFile, User user) {
@@ -47,20 +46,20 @@ public class StoryService {
         Story story = storyCreateRequest.toEntity(image, user, session);
         story = storyRepository.save(story);
 
-        return StoryResponse.from(story, storageUri);
+        return StoryResponse.from(story, storageUrl);
     }
-    
+
     public StoryResponse findStoryById(Long id) {
         Story story = storyRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("스토리를 찾을 수 없습니다."));
 
-        return StoryResponse.from(story, storageUri);
+        return StoryResponse.from(story, storageUrl);
     }
 
     public List<StoryResponse> findStoriesBySessionId(Long id) {
         return storyRepository.findBySessionId(id)
                 .stream()
-                .map(story -> StoryResponse.from(story, storageUri))
+                .map(story -> StoryResponse.from(story, storageUrl))
                 .collect(Collectors.toList());
     }
 }
