@@ -51,49 +51,41 @@ public class SessionJoinService {
     }
 
     @Transactional
-    public void approveJoinRequest(Long sessionId, Long userId, User requester) {
-        Session session = sessionRepository.findById(sessionId)
-                .orElseThrow(() -> new CustomException(ErrorCode.SESSION_NOT_FOUND));
+    public void approveJoinRequest(Long applicationId, User requester) {
+        SessionMember sessionMember = findSessionJoinApplication(applicationId);
 
-        if (!session.getOwner().getId().equals(requester.getId())) {
-            throw new CustomException(ErrorCode.ONLY_OWNER_CAN_APPROVE_JOIN_REQUEST);
-        }
-
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-
-        SessionMember sessionMember = sessionMemberRepository.findBySessionAndUser(session, user)
-                .orElseThrow(() -> new CustomException(ErrorCode.SESSION_REQUEST_NOT_FOUND));
-
-        if (!sessionMember.getStatus().equals(MemberStatus.PENDING)) {
-            throw new CustomException(ErrorCode.SESSION_REQUEST_NOT_FOUND);
-        }
+        Session session = sessionMember.getSession();
+        validateSessionOwner(session, requester);
 
         sessionMember.approveRequest();
         sessionMemberRepository.save(sessionMember);
     }
 
     @Transactional
-    public void rejectJoinRequest(Long sessionId, Long userId, User requester) {
-        Session session = sessionRepository.findById(sessionId)
-                .orElseThrow(() -> new CustomException(ErrorCode.SESSION_NOT_FOUND));
+    public void rejectJoinRequest(Long applicationId, User requester) {
+        SessionMember sessionMember = findSessionJoinApplication(applicationId);
 
-        // Only session owner can reject requests
-        if (!session.getOwner().getId().equals(requester.getId())) {
-            throw new CustomException(ErrorCode.ONLY_OWNER_CAN_APPROVE_JOIN_REQUEST);
-        }
+        Session session = sessionMember.getSession();
+        validateSessionOwner(session, requester);
 
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+        sessionMember.rejectRequest();
+        sessionMemberRepository.save(sessionMember);
+    }
 
-        SessionMember sessionMember = sessionMemberRepository.findBySessionAndUser(session, user)
+    private SessionMember findSessionJoinApplication(Long applicationId) {
+        SessionMember sessionMember = sessionMemberRepository.findById(applicationId)
                 .orElseThrow(() -> new CustomException(ErrorCode.SESSION_REQUEST_NOT_FOUND));
 
         if (!sessionMember.getStatus().equals(MemberStatus.PENDING)) {
             throw new CustomException(ErrorCode.SESSION_REQUEST_NOT_FOUND);
         }
 
-        sessionMember.rejectRequest();
-        sessionMemberRepository.save(sessionMember);
+        return sessionMember;
+    }
+
+    private void validateSessionOwner(Session session, User requester) {
+        if (!session.getOwner().getId().equals(requester.getId())) {
+            throw new CustomException(ErrorCode.ONLY_OWNER_CAN_APPROVE_JOIN_REQUEST);
+        }
     }
 }
