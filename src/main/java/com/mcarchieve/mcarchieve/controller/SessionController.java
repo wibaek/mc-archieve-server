@@ -76,27 +76,27 @@ public class SessionController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/{sessionId}/members/{userId}/approve")
+    @PostMapping("/{sessionId}/join-applications/{applicationId}/approve")
     public ResponseEntity<?> approveJoinRequest(
             @PathVariable Long sessionId,
-            @PathVariable Long userId,
+            @PathVariable Long applicationId,
             Principal principal) {
         User requester = userRepository.findByEmail(principal.getName())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        sessionJoinService.approveJoinRequest(sessionId, userId, requester);
+        sessionJoinService.approveJoinRequest(applicationId, requester);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/{sessionId}/members/{userId}/reject")
+    @PostMapping("/{sessionId}/join-applications/{applicationId}/reject")
     public ResponseEntity<?> rejectJoinRequest(
             @PathVariable Long sessionId,
-            @PathVariable Long userId,
+            @PathVariable Long applicationId,
             Principal principal) {
         User requester = userRepository.findByEmail(principal.getName())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        sessionJoinService.rejectJoinRequest(sessionId, userId, requester);
+        sessionJoinService.rejectJoinRequest(applicationId, requester);
         return ResponseEntity.ok().build();
     }
 
