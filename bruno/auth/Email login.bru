@@ -1,0 +1,18 @@
+meta {
+  name: Email login
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{URL}}/v1/auth/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "test@wibaek.com",
+    "password": "abcd1234"
+  }
+}

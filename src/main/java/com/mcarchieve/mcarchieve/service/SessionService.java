@@ -1,52 +1,60 @@
 package com.mcarchieve.mcarchieve.service;
 
-import com.mcarchieve.mcarchieve.entity.session.Session;
-import com.mcarchieve.mcarchieve.dto.session.SessionRequestDto;
-import com.mcarchieve.mcarchieve.dto.session.SessionResponseDto;
-import com.mcarchieve.mcarchieve.entity.user.User;
+import com.mcarchieve.mcarchieve.domain.session.MemberStatus;
+import com.mcarchieve.mcarchieve.domain.session.Session;
+import com.mcarchieve.mcarchieve.domain.session.SessionMember;
+import com.mcarchieve.mcarchieve.domain.user.User;
+import com.mcarchieve.mcarchieve.dto.session.SessionCreateRequest;
+import com.mcarchieve.mcarchieve.dto.session.SessionResponse;
+import com.mcarchieve.mcarchieve.exception.CustomException;
+import com.mcarchieve.mcarchieve.exception.ErrorCode;
+import com.mcarchieve.mcarchieve.repository.SessionMemberRepository;
 import com.mcarchieve.mcarchieve.repository.SessionRepository;
-
+import com.mcarchieve.mcarchieve.repository.UserRepository;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class SessionService {
 
-    SessionRepository sessionRepository;
+    private final SessionRepository sessionRepository;
+    private final SessionMemberRepository sessionMemberRepository;
+    private final UserRepository userRepository;
 
-    public SessionService(SessionRepository sessionRepository) {
-        this.sessionRepository = sessionRepository;
-    }
-
-    public SessionResponseDto createSession(SessionRequestDto sessionDto, User user) {
-        Session session = sessionDto.toEntity();
-        session.setOwner(user);
+    @Transactional
+    public SessionResponse createSession(SessionCreateRequest sessionCreateRequest, User owner) {
+        Session session = sessionCreateRequest.toEntity(owner);
+        SessionMember sessionMember = new SessionMember(session, owner, MemberStatus.APPROVED);
         session = sessionRepository.save(session);
-        return SessionResponseDto.fromEntity(session);
+        sessionMemberRepository.save(sessionMember);
+        return SessionResponse.from(session);
     }
 
-    public List<SessionResponseDto> findAllSessions() {
-        List<Session> sessions = sessionRepository.findAll();
-        return sessions.stream()
-                .map(SessionResponseDto::fromEntity)
+    public List<SessionResponse> findAllSessions() {
+        return sessionRepository.findAll()
+                .stream()
+                .map(SessionResponse::from)
                 .collect(Collectors.toList());
     }
 
-    public SessionResponseDto findSessionById(Long id) {
-        Session session = sessionRepository.findById(id).orElse(null);
-        return session != null ? SessionResponseDto.fromEntity(session) : null;
+    public List<SessionResponse> findAllMySessions(User user) {
+        return sessionMemberRepository.findAllByUser(user)
+                .stream()
+                .map(sessionMember -> SessionResponse.from(sessionMember.getSession()))
+                .collect(Collectors.toList());
     }
 
-    public boolean deleteSessionById(Long id) {
-        Optional<Session> session = sessionRepository.findById(id);
-        if (session.isPresent()) {
-            sessionRepository.delete(session.get());
-            return true;
-        } else {
-            return false;
-        }
+    public SessionResponse findSessionById(Long id) {
+        Session session = sessionRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.SESSION_NOT_FOUND));
+
+        return SessionResponse.from(session);
     }
+
+
 }

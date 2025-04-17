@@ -1,90 +1,65 @@
 package com.mcarchieve.mcarchieve.service;
 
-import com.mcarchieve.mcarchieve.dto.session.StoryRequestDto;
-import com.mcarchieve.mcarchieve.dto.session.StoryResponseDto;
-import com.mcarchieve.mcarchieve.entity.Image;
-import com.mcarchieve.mcarchieve.entity.session.Session;
-import com.mcarchieve.mcarchieve.entity.session.Story;
-import com.mcarchieve.mcarchieve.entity.user.User;
+import com.mcarchieve.mcarchieve.domain.Image;
+import com.mcarchieve.mcarchieve.domain.session.Session;
+import com.mcarchieve.mcarchieve.domain.session.Story;
+import com.mcarchieve.mcarchieve.domain.user.User;
+import com.mcarchieve.mcarchieve.dto.session.StoryCreateRequest;
+import com.mcarchieve.mcarchieve.dto.session.StoryResponse;
+import com.mcarchieve.mcarchieve.exception.CustomException;
+import com.mcarchieve.mcarchieve.exception.ErrorCode;
 import com.mcarchieve.mcarchieve.repository.SessionRepository;
 import com.mcarchieve.mcarchieve.repository.StoryRepository;
-import com.mcarchieve.mcarchieve.repository.UserRepository;
-import com.mcarchieve.mcarchieve.type.FileUploadPath;
-
-import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.mcarchieve.mcarchieve.service.image.FileUploadPath;
+import com.mcarchieve.mcarchieve.service.image.ImageStorageService;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class StoryService {
-    private StoryRepository storyRepository;
-    private UserRepository userRepository;
-    private SessionRepository sessionRepository;
 
-    private S3Service s3Service;
+    private final StoryRepository storyRepository;
+    private final SessionRepository sessionRepository;
+    private final ImageStorageService imageStorageService;
 
-    @Value("${cloud.aws.cloudfront.uri}")
-    private String imageRepositoryUri;
+    @Value("${cloud.cloudflare.r2.url}")
+    private String storageUrl;
 
-    public StoryService(StoryRepository storyRepository,
-                        UserRepository userRepository,
-                        SessionRepository sessionRepository,
-                        S3Service s3Service) {
-        this.storyRepository = storyRepository;
-        this.userRepository = userRepository;
-        this.sessionRepository = sessionRepository;
-        this.s3Service = s3Service;
-    }
+    @Transactional
+    public StoryResponse createStory(StoryCreateRequest storyCreateRequest, MultipartFile imageFile, User user) {
+        Session session = sessionRepository.findById(storyCreateRequest.sessionId())
+                .orElseThrow(() -> new CustomException(ErrorCode.SESSION_NOT_FOUND));
 
-    public StoryResponseDto findStoryById(Long id) {
-        Story story = storyRepository.findById(id).orElseThrow(() -> new RuntimeException("Story not found"));
-
-        return StoryResponseDto.fromEntity(story, imageRepositoryUri);
-    }
-
-    public List<StoryResponseDto> findStoriesBySessionId(Long id) {
-        List<Story> stories = storyRepository.findBySessionId(id);
-        List<StoryResponseDto> storyResponseDtos = new java.util.ArrayList<>();
-
-        for (Story story : stories) {
-            StoryResponseDto storyResponseDto = StoryResponseDto.fromEntity(story, imageRepositoryUri);
-            storyResponseDtos.add(storyResponseDto);
+        if (!session.isMember(user)) {
+            throw new CustomException(ErrorCode.NOT_SESSION_MEMBER);
         }
 
-        return storyResponseDtos;
-    }
+        Image image = imageStorageService.storeImage(imageFile, FileUploadPath.STORY);
 
-    public StoryResponseDto createStory(StoryRequestDto storyRequestDto) throws IOException {
-        Story story = new Story();
-        User createdUser = userRepository.findById(storyRequestDto.getCreatedById()).orElseThrow(() -> new RuntimeException("User not found"));
-        Session session = sessionRepository.findById(storyRequestDto.getSessionId()).orElseThrow(() -> new RuntimeException("Session not found"));
-
-        MultipartFile file = storyRequestDto.getImage();
-
-        if (file != null) {
-            ObjectMetadata metadata = new ObjectMetadata();
-
-            UUID uuid = UUID.randomUUID();
-            String originalFilename = file.getOriginalFilename();
-            String fileName = uuid.toString() + originalFilename.substring(originalFilename.lastIndexOf("."));
-            String path = FileUploadPath.STORY.getPath() + "/" + fileName;
-
-            Image image = s3Service.uploadFile(file, path);
-            story.setImage(image);
-        }
-
-        story.setId(null);
-        story.setDescription(storyRequestDto.getDescription());
-        story.setCreatedBy(createdUser);
-        story.setSession(session);
-
+        Story story = storyCreateRequest.toEntity(image, user, session);
         story = storyRepository.save(story);
 
-        return StoryResponseDto.fromEntity(story, imageRepositoryUri);
+        return StoryResponse.from(story, storageUrl);
+    }
+
+    public StoryResponse findStoryById(Long id) {
+        Story story = storyRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("스토리를 찾을 수 없습니다."));
+
+        return StoryResponse.from(story, storageUrl);
+    }
+
+    public List<StoryResponse> findStoriesBySessionId(Long id) {
+        return storyRepository.findBySessionId(id)
+                .stream()
+                .map(story -> StoryResponse.from(story, storageUrl))
+                .collect(Collectors.toList());
     }
 }

@@ -1,13 +1,8 @@
+--- # secret example
 spring:
-  datasource:
-    url:
-    username: dbuser
-    password: dbpassword
-
-  security:
-    user:
-      name: admin
-      password: password
+  config:
+    activate:
+      on-profile: example
 
 service:
   jwt:
@@ -24,3 +19,11 @@ cloud:
       static: ap-northeast-2
     cloudfront:
       uri: ~
+  cloudflare:
+    credentials:
+      access-key: 123
+      secret-key: 123
+      endpoint: https://~.r2.cloudflarestorage.com
+    r2:
+      bucket: bucket-name
+      uri: https://example.image.wibaek.com

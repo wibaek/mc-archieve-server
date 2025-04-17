@@ -1,13 +1,13 @@
 spring:
+  config:
+    import:
+      - classpath:/secret/application-secret.yml
   profiles:
-    active: test
     group:
       prod:
         - prod
-        - secret
       dev:
         - dev
-        - example
       test:
         - test
 
@@ -39,11 +39,23 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
     defer-datasource-initialization: true
 
+cors:
+  allowed-origins:
+    - "https://mc-archieve.wibaek.com"
+    - "https://api.mc-archieve.wibaek.com"
+    - "https://v0.dev"
+
 --- # dev
 spring:
   config:
     activate:
       on-profile: dev
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mcdb
+    username: mcuser
+    password: mcpassword
 
   jpa:
     hibernate:
@@ -53,37 +65,11 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
     defer-datasource-initialization: true
 
---- # test
-spring:
-  config:
-    activate:
-      on-profile: test
-
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-  datasource:
-    driverClassName: org.h2.Driver
-    url: jdbc:h2:mem:testdb
-    username: sa
-    password: password
-
   security:
     user:
       name: admin
       password: password
 
-service:
-  jwt:
-    secret: secret-comes-here-needs-to-be-very-long-maybe-about-100-characters-for-hsa-512-key-generation-idk
-
-cloud:
-  aws:
-    credentials:
-      access-key: access-key
-      secret-key: secret-key
-    s3:
-      bucket: bucket-name
-    region:
-      static: ap-northeast-2
-    cloudfront:
-      uri: ~
+cors:
+  allowed-origins:
+    - "http://localhost:3000"

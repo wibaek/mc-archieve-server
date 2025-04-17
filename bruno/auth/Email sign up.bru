@@ -1,0 +1,19 @@
+meta {
+  name: Email sign up
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{URL}}/v1/auth/signup
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "test@wibaek.com",
+    "password": "abcd1234",
+    "nickname": "닉네임"
+  }
+}

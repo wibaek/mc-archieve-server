@@ -1,53 +1,53 @@
 package com.mcarchieve.mcarchieve.service;
 
-import com.mcarchieve.mcarchieve.dto.user.SignupDto;
-import com.mcarchieve.mcarchieve.dto.user.UserDto;
-import com.mcarchieve.mcarchieve.entity.user.Password;
-import com.mcarchieve.mcarchieve.entity.user.Profile;
-import com.mcarchieve.mcarchieve.entity.user.User;
-import com.mcarchieve.mcarchieve.repository.PasswordRepository;
-import com.mcarchieve.mcarchieve.repository.ProfileRepository;
+import com.mcarchieve.mcarchieve.domain.user.Password;
+import com.mcarchieve.mcarchieve.domain.user.User;
+import com.mcarchieve.mcarchieve.dto.auth.EmailSignUpRequest;
+import com.mcarchieve.mcarchieve.dto.user.MyInfoResponse;
+import com.mcarchieve.mcarchieve.exception.CustomException;
+import com.mcarchieve.mcarchieve.exception.ErrorCode;
 import com.mcarchieve.mcarchieve.repository.UserRepository;
-import com.mcarchieve.mcarchieve.type.LoginType;
-
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
-    private UserRepository userRepository;
-    private ProfileRepository profileRepository;
-    private PasswordRepository passwordRepository;
 
-    private PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, ProfileRepository profileRepository, PasswordRepository passwordRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.profileRepository = profileRepository;
-        this.passwordRepository = passwordRepository;
-        this.passwordEncoder = passwordEncoder;
+    public MyInfoResponse getUserByEmail(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
+        return MyInfoResponse.from(user);
     }
 
-    public UserDto getUserByEmail(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
-        return new UserDto(user);
+    @Transactional
+    public User signUp(EmailSignUpRequest emailSignUpRequest) {
+        validateEmail(emailSignUpRequest.email());
+        validatePassword(emailSignUpRequest.password());
+
+        Password password = new Password(passwordEncoder.encode(emailSignUpRequest.password()));
+        User user = User.createEmailUser(emailSignUpRequest.email(), password, emailSignUpRequest.nickname());
+        userRepository.save(user);
+        return user;
     }
 
-    public User signup(SignupDto signupDto) {
-        if (userRepository.findByEmail(signupDto.getEmail()).orElse(null) != null) {
-            throw new RuntimeException("이미 가입되어 있는 유저입니다.");
+    private void validateEmail(String email) {
+        if (userRepository.findByEmail(email).orElse(null) != null) {
+            throw new CustomException(ErrorCode.EMAIL_ALREADY_EXISTS);
         }
 
-        // 권한 정보 만들기
-//        Authority authority = Authority.builder()
-//                .authorityName("ROLE_USER")
-//                .build();
+        if (!email.contains("@")) {
+            throw new CustomException(ErrorCode.INVALID_EMAIL_FORMAT);
+        }
+    }
 
-        Password password = new Password(null, passwordEncoder.encode(signupDto.getPassword()), null);
-        password = passwordRepository.save(password);
-        Profile profile = new Profile();
-        profile = profileRepository.save(profile);
-        User user = new User(null, signupDto.getEmail(), password, profile, null, LoginType.BASIC, null);
-        return userRepository.save(user);
+    private void validatePassword(String password) {
+        if (password.length() < 8) {
+            throw new CustomException(ErrorCode.INVALID_PASSWORD_FORMAT);
+        }
     }
 }

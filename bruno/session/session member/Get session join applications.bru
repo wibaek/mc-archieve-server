@@ -1,0 +1,11 @@
+meta {
+  name: Get session join applications
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{URL}}/v1/sessions/1/join-requests
+  body: none
+  auth: inherit
+}

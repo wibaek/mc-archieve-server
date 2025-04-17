@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: mc-archieve
+
+    servlet:
+      multipart:
+        enabled: true
+        max-file-size: 10MB
+        max-request-size: 10MB
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+
+  datasource:
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: password
+
+  security:
+    user:
+      name: admin
+      password: password
+
+service:
+  jwt:
+    expiration: 900000 # 15 minutes
+    secret: secret-comes-here-needs-to-be-very-long-maybe-about-100-characters-for-hsa-512-key-generation-idk
+
+cloud:
+  aws:
+    credentials:
+      access-key: access-key
+      secret-key: secret-key
+    s3:
+      bucket: bucket-name
+    region:
+      static: ap-northeast-2
+    cloudfront:
+      uri: ~
+  cloudflare:
+    credentials:
+      access-key: 123
+      secret-key: 123
+      endpoint: https://~.r2.cloudflarestorage.com
+    r2:
+      bucket: bucket-name
+      url: https://example.image.wibaek.com
