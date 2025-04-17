@@ -53,7 +53,7 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/mcdb
+    url: jdbc:mysql://mc-mysql:3306/mcdb
     username: mcuser
     password: mcpassword
 
