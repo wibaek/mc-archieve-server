@@ -78,4 +78,4 @@ jobs:
           script: |
             cd /home/${{ secrets.USERNAME }}/mc-archieve-server
             docker compose down
-            docker compose -f docker-compose.prod.yml up -d --build
+            docker compose -f docker-compose.yml up -d --build
