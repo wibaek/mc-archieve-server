@@ -49,6 +49,18 @@ public class JwtService {
         }
     }
 
+//    public String generateJwtByEmail(String email) {
+//        String jwt = Jwts.builder()
+//                .issuer(issuer)
+//                .issuedAt(new Date())
+//                .expiration(new Date(System.currentTimeMillis() + expiration)) // 15분
+//                .subject(email)
+//                .signWith(secretKey, Jwts.SIG.HS512)
+//                .compact();
+//
+//        return jwt;
+//    }
+
     public String generateAccessToken(Authentication authentication) {
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -105,19 +117,4 @@ public class JwtService {
 
         return new UsernamePasswordAuthenticationToken(userDetails, token, userDetails.getAuthorities());
     }
-
-    public String createJwtByEmail(String email) {
-        String jwt = Jwts.builder()
-                .issuer(issuer)
-                .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + expiration)) // 15분
-                .subject(email)
-                .signWith(secretKey, Jwts.SIG.HS512)
-                .compact();
-
-        return jwt;
-    }
-
-
-
 }
