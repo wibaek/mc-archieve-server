@@ -16,22 +16,24 @@ import java.util.Date;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class JwtService {
 
     private final CustomUserDetailsService customUserDetailsService;
+    private final SecretKey secretKey;
 
     @Value("${spring.application.name}")
     private String issuer;
-
-    @Value("${service.jwt.secret}")
-    private SecretKey secretKey;
 
     @Value("${service.jwt.expiration}")
     private Long ACCESS_TOKEN_EXPIRATION;
 
     @Value("${service.jwt.expiration}")
     private Long REFRESH_TOKEN_EXPIRATION;
+
+    public JwtService(@Value("${service.jwt.secret}") String secretKey, CustomUserDetailsService customUserDetailsService) {
+        this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64URL.decode(secretKey));
+        this.customUserDetailsService = customUserDetailsService;
+    }
 
     public boolean isValidAccessToken(String jwt) {
         if (jwt == null || jwt.isEmpty()) {
