@@ -26,23 +26,27 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        String jwt = resolveToken(request);
-        if (jwt == null) {
+        String jwt = resolveTokenFromHeader(request, AUTHORIZATION_HEADER);
+        if (jwt == null || jwt.isEmpty()) {
+            SecurityContextHolder.getContext().setAuthentication(null);
             filterChain.doFilter(request, response);
             return;
         }
 
-        if (StringUtils.hasText(jwt) && jwtService.isValidToken(jwt)) {
-            Authentication authentication = jwtService.getAuthentication(jwt);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+        if (jwtService.isValidAccessToken(jwt)) {
+            setAuthenticationToContext(jwt);
+            filterChain.doFilter(request, response);
         }
+    }
 
-        filterChain.doFilter(request, response);
+    private void setAuthenticationToContext(String accessToken) {
+        Authentication authentication = jwtService.getAuthentication(accessToken);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
     // Request Header 에서 토큰 정보를 꺼내오기 위한 메소드
-    private String resolveToken(HttpServletRequest request) {
-        String token = request.getHeader(AUTHORIZATION_HEADER);
+    private String resolveTokenFromHeader(HttpServletRequest request, String header) {
+        String token = request.getHeader(header);
 
         if (StringUtils.hasText(token) && token.startsWith(TOKEN_PREFIX)) {
             return token.substring(TOKEN_PREFIX.length());

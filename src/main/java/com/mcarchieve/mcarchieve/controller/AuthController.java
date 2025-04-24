@@ -36,7 +36,7 @@ public class AuthController {
             Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            String jwt = jwtService.createJwt(authentication);
+            String jwt = jwtService.generateAccessToken(authentication);
             LoginResponse loginResponse = new LoginResponse(jwt);
 
             return ResponseEntity.ok(loginResponse);
@@ -55,7 +55,7 @@ public class AuthController {
 
     @PostMapping("/validate")
     public boolean validateToken(@RequestParam("jwt") String jwt) {
-        return jwtService.isValidToken(jwt);
+        return jwtService.isValidAccessToken(jwt);
     }
 
 }
