@@ -25,6 +25,8 @@ public class SecurityConfiguration {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final JwtService jwtService;
     private final CorsProperties corsProperties;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -60,6 +62,10 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.GET, "/v1/stories/**").permitAll()
 //                                .anyRequest().authenticated()
                                 .anyRequest().permitAll()
+                )
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(customAuthenticationEntryPoint)
+                        .accessDeniedHandler(customAccessDeniedHandler)
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 //                .addFilterBefore(new ExceptionHandlerFilter(), JwtAuthenticationFilter.class);
