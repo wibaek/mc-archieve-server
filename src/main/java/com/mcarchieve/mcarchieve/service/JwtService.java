@@ -1,9 +1,11 @@
 package com.mcarchieve.mcarchieve.service;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -92,7 +94,7 @@ public class JwtService {
                 .issuer(issuer) // iss: 토큰 발급자
                 .subject(authentication.getName()) // sub: 토큰 제목
                 .issuedAt(new Date()) // iat: 토큰 발급 시간
-                .expiration(new Date(System.currentTimeMillis() + REFRESH_TOKEN_EXPIRATION                                  )) // exp: 토큰 만료 시간
+                .expiration(new Date(System.currentTimeMillis() + REFRESH_TOKEN_EXPIRATION)) // exp: 토큰 만료 시간
                 .claim("authorities", authorities) // 추가 데이터
                 // Signature
                 .signWith(secretKey, Jwts.SIG.HS512)
