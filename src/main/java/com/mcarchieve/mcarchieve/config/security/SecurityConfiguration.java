@@ -1,12 +1,10 @@
 package com.mcarchieve.mcarchieve.config.security;
 
-import com.mcarchieve.mcarchieve.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -61,13 +59,13 @@ public class SecurityConfiguration {
                 )
                 .authorizeHttpRequests(
                         auth -> auth
-                                .requestMatchers("/v1/login").permitAll()
-                                .requestMatchers("/v1/signup").permitAll()
-                                .requestMatchers("/v1/validate").permitAll()
+                                .requestMatchers("/v1/auth/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/v1/servers/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/v1/sessions/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/v1/stories/**").permitAll()
                                 .anyRequest().authenticated()
+//                                .anyRequest().permitAll()
+
                 )
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(customAuthenticationEntryPoint)
