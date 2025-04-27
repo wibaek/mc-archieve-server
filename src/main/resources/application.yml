@@ -2,14 +2,6 @@ spring:
   config:
     import:
       - classpath:/secret/application-secret.yml
-  profiles:
-    group:
-      prod:
-        - prod
-      dev:
-        - dev
-      test:
-        - test
 
   application:
     name: mc-archieve
@@ -53,7 +45,7 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://mc-mysql:3306/mcdb
+    url: jdbc:mysql://localhost:3306/mcdb
     username: mcuser
     password: mcpassword
 
@@ -73,3 +65,7 @@ spring:
 cors:
   allowed-origins:
     - "http://localhost:3000"
+
+service:
+  jwt:
+    secret: secret-comes-here-needs-to-be-very-long-maybe-about-100-characters-for-hsa-512-key-generation-idk

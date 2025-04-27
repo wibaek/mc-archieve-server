@@ -12,6 +12,7 @@ import com.mcarchieve.mcarchieve.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -26,18 +27,26 @@ public class AuthController {
 
     private final JwtService jwtService;
     private final UserService userService;
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+//    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final AuthenticationManager authenticationManager;
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> authenticate(@RequestBody @Valid EmailLoginRequest emailLoginRequest) {
+        // AuthenticationManager로 인증 시도, 이는 기존의 username/password 방식으로 인증을 시도하는 것과 동일
         try {
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(emailLoginRequest.email(), emailLoginRequest.password());
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            emailLoginRequest.email(),
+                            emailLoginRequest.password()
+                    )
+            );
 
-            Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+            // 인증 성공 시 SecurityContext 에 저장
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            String jwt = jwtService.createJwt(authentication);
-            LoginResponse loginResponse = new LoginResponse(jwt);
+            // JWT 생성
+            String accessToken = jwtService.generateAccessToken(authentication);
+            LoginResponse loginResponse = new LoginResponse(accessToken);
 
             return ResponseEntity.ok(loginResponse);
         } catch (AuthenticationException e) {
@@ -55,7 +64,7 @@ public class AuthController {
 
     @PostMapping("/validate")
     public boolean validateToken(@RequestParam("jwt") String jwt) {
-        return jwtService.isValidToken(jwt);
+        return jwtService.isValidAccessToken(jwt);
     }
 
 }
