@@ -16,3 +16,13 @@ body:json {
     "password": "abcd1234"
   }
 }
+
+tests {
+  test("Save access token to environment", function() {
+      if (!res.body.hasOwnProperty('accessToken')) {
+          throw new Error("Response body does not contain accessToken");
+      }
+      const token = res.body.accessToken;
+      bru.setEnvVar("ACCESS_TOKEN", token);
+  });
+}
