@@ -30,6 +30,7 @@ public class R2Config {
 
         S3Configuration serviceConfiguration = S3Configuration.builder()
                 .pathStyleAccessEnabled(true)
+                .chunkedEncodingEnabled(false)
                 .build();
 
         return S3Client.builder()
