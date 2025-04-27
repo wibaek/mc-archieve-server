@@ -60,8 +60,7 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.GET, "/v1/servers/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/v1/sessions/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/v1/stories/**").permitAll()
-//                                .anyRequest().authenticated()
-                                .anyRequest().permitAll()
+                                .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(customAuthenticationEntryPoint)

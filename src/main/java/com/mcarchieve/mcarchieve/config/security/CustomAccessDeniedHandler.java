@@ -1,6 +1,9 @@
-package com.mcarchieve.mcarchieve.exception;
+package com.mcarchieve.mcarchieve.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mcarchieve.mcarchieve.exception.CustomException;
+import com.mcarchieve.mcarchieve.exception.ErrorCode;
+import com.mcarchieve.mcarchieve.exception.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
