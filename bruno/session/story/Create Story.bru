@@ -1,0 +1,21 @@
+meta {
+  name: Create Story
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{URL}}/v1/stories
+  body: multipartForm
+  auth: inherit
+}
+
+body:multipart-form {
+  request: '''
+    {
+      "sessionId": 12
+    }
+  ''' @contentType(application/json)
+  file: @file()
+  ~file: @file(/Users/wibaekpark/Downloads/2025-02-10_01.01.47.png)
+}
