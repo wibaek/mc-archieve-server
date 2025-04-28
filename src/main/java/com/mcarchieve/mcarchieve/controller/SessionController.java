@@ -11,10 +11,13 @@ import com.mcarchieve.mcarchieve.repository.UserRepository;
 import com.mcarchieve.mcarchieve.service.SessionJoinService;
 import com.mcarchieve.mcarchieve.service.SessionService;
 import com.mcarchieve.mcarchieve.service.StoryService;
+import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 import java.util.List;
@@ -57,6 +60,23 @@ public class SessionController {
     public ResponseEntity<SessionResponse> getSessionById(@PathVariable Long id) {
         SessionResponse session = sessionService.findSessionById(id);
         return ResponseEntity.ok(session);
+    }
+
+    @PostMapping(path = "/{id}/stories",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<StoryResponse> createStory(
+            @PathVariable Long id,
+            @RequestPart("caption") @Nullable String caption,
+            @RequestPart(value = "file") MultipartFile imageFile,
+            Principal principal
+    ) {
+
+        User user = userRepository.findByEmail(principal.getName())
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        StoryResponse response = storyService.createStory(id, imageFile, user, caption);
+        // TODO: .created() 메소드를 사용하여 생성된 리소스의 URI를 반환하도록 수정
+        return ResponseEntity.ok(response);
     }
 
     // 세션 참가 신청 관련
