@@ -48,9 +48,9 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok'
 
     // Testcontainers
-    testImplementation 'org.testcontainers:testcontainers'
+    testImplementation 'org.testcontainers:testcontainers:1.21.0'
     testImplementation 'org.testcontainers:junit-jupiter'
-    testImplementation 'org.testcontainers:mysql'
+    testImplementation 'org.testcontainers:mysql' // testcontainers MySQL dependency
 }
 
 tasks.named('test') {

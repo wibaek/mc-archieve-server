@@ -1,3 +1,7 @@
+my:
+  test:
+    prop: hello-test
+
 spring:
   application:
     name: mc-archieve
@@ -8,14 +12,20 @@ spring:
         max-file-size: 10MB
         max-request-size: 10MB
 
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-
   datasource:
-    driverClassName: org.h2.Driver
-    url: jdbc:h2:mem:testdb
-    username: sa
-    password: password
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    url: jdbc:tc:mysql:8.0:///testcontainer_db
+    username: test
+    password: test
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    generate-ddl: true
+    database: mysql
+    properties:
+      hibernate:
+        format_sql: true
 
   security:
     user:
