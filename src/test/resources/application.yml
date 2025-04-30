@@ -4,13 +4,13 @@ my:
 
 spring:
   application:
-    name: mc-archieve
+    name: mc-archieve-test
 
-    servlet:
-      multipart:
-        enabled: true
-        max-file-size: 10MB
-        max-request-size: 10MB
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
 
   datasource:
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
@@ -21,11 +21,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
-    generate-ddl: true
-    database: mysql
     properties:
       hibernate:
-        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true # 출력 SQL 보기 좋게 포맷팅
+    defer-datasource-initialization: true
 
   security:
     user:
@@ -36,6 +36,11 @@ service:
   jwt:
     expiration: 900000 # 15 minutes
     secret: secret-comes-here-needs-to-be-very-long-maybe-about-100-characters-for-hsa-512-key-generation-idk
+
+cors:
+  allowed-origins:
+    - "https://mc-archieve.wibaek.com"
+    - "https://api.mc-archieve.wibaek.com"
 
 cloud:
   aws:

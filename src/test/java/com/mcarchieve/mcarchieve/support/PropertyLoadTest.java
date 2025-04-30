@@ -10,7 +10,7 @@ import org.springframework.core.env.Environment;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-@EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
+
 class PropertyLoadTest {
 
     @Autowired
