@@ -24,13 +24,13 @@ configurations {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'com.mysql:mysql-connector-j'
+
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     implementation 'org.springframework.retry:spring-retry'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-
-    runtimeOnly 'com.mysql:mysql-connector-j'
 
     implementation 'com.amazonaws:aws-java-sdk-s3:1.12.720'
     implementation 'software.amazon.awssdk:s3:2.31.1'
@@ -43,8 +43,14 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 
+    // Lombok
     annotationProcessor 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
+
+    // Testcontainers
+    testImplementation 'org.testcontainers:testcontainers'
+    testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation 'org.testcontainers:mysql'
 }
 
 tasks.named('test') {
