@@ -55,6 +55,4 @@ public class SessionService {
 
         return SessionResponse.from(session);
     }
-
-
 }
