@@ -1,10 +1,7 @@
 package com.mcarchieve.mcarchieve.controller;
 
 import com.mcarchieve.mcarchieve.domain.user.User;
-import com.mcarchieve.mcarchieve.dto.session.SessionCreateRequest;
-import com.mcarchieve.mcarchieve.dto.session.SessionJoinApplicationsResponse;
-import com.mcarchieve.mcarchieve.dto.session.SessionResponse;
-import com.mcarchieve.mcarchieve.dto.session.StoryResponse;
+import com.mcarchieve.mcarchieve.dto.session.*;
 import com.mcarchieve.mcarchieve.exception.CustomException;
 import com.mcarchieve.mcarchieve.exception.ErrorCode;
 import com.mcarchieve.mcarchieve.repository.UserRepository;
@@ -79,6 +76,26 @@ public class SessionController {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping(path = "{id}/stories/bulk",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<StoryBulkCreateResponse> createStoryBulk(
+            @PathVariable Long id,
+            @RequestPart(value = "files") List<MultipartFile> imageFiles,
+            Principal principal
+    ) {
+        User user = userRepository.findByEmail(principal.getName())
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        StoryBulkCreateResponse responses = storyService.createStories(id, imageFiles, user);
+        return ResponseEntity.ok(responses);
+    }
+
+    @GetMapping("/{id}/stories")
+    public ResponseEntity<List<StoryResponse>> getStoriesBySessionId(@PathVariable Long id) {
+        List<StoryResponse> stories = storyService.findStoriesBySessionId(id);
+        return ResponseEntity.ok(stories);
+    }
+
     // 세션 참가 신청 관련
     @PostMapping("/{id}/join")
     public ResponseEntity<?> requestToJoinSession(@PathVariable Long id, Principal principal) {
@@ -118,11 +135,5 @@ public class SessionController {
 
         sessionJoinService.rejectJoinRequest(applicationId, requester);
         return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("/{id}/stories")
-    public ResponseEntity<List<StoryResponse>> getStoriesBySessionId(@PathVariable Long id) {
-        List<StoryResponse> stories = storyService.findStoriesBySessionId(id);
-        return ResponseEntity.ok(stories);
     }
 }
