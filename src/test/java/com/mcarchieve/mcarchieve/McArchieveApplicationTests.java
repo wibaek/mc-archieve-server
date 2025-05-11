@@ -3,7 +3,7 @@ package com.mcarchieve.mcarchieve;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+@SpringBootTest(classes = McArchieveApplicationTests.class)
 class McArchieveApplicationTests {
 
 	@Test

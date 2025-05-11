@@ -4,7 +4,7 @@ import com.mcarchieve.mcarchieve.domain.Image;
 import com.mcarchieve.mcarchieve.domain.session.Session;
 import com.mcarchieve.mcarchieve.domain.session.Story;
 import com.mcarchieve.mcarchieve.domain.user.User;
-import com.mcarchieve.mcarchieve.dto.session.StoryCreateRequest;
+import com.mcarchieve.mcarchieve.dto.session.StoryBulkCreateResponse;
 import com.mcarchieve.mcarchieve.dto.session.StoryResponse;
 import com.mcarchieve.mcarchieve.exception.CustomException;
 import com.mcarchieve.mcarchieve.exception.ErrorCode;
@@ -33,8 +33,8 @@ public class StoryService {
     private String storageUrl;
 
     @Transactional
-    public StoryResponse createStory(StoryCreateRequest storyCreateRequest, MultipartFile imageFile, User user) {
-        Session session = sessionRepository.findById(storyCreateRequest.sessionId())
+    public StoryResponse createStory(Long sessionId, MultipartFile imageFile, User user, String caption) {
+        Session session = sessionRepository.findById(sessionId)
                 .orElseThrow(() -> new CustomException(ErrorCode.SESSION_NOT_FOUND));
 
         if (!session.isMember(user)) {
@@ -43,10 +43,32 @@ public class StoryService {
 
         Image image = imageStorageService.storeImage(imageFile, FileUploadPath.STORY);
 
-        Story story = storyCreateRequest.toEntity(image, user, session);
+        Story story = new Story(caption, image, user, session);
         story = storyRepository.save(story);
 
         return StoryResponse.from(story, storageUrl);
+    }
+
+    @Transactional
+    public StoryBulkCreateResponse createStories(Long sessionId, List<MultipartFile> imageFiles, User user) {
+        Session session = sessionRepository.findById(sessionId)
+                .orElseThrow(() -> new CustomException(ErrorCode.SESSION_NOT_FOUND));
+
+        if (!session.isMember(user)) {
+            throw new CustomException(ErrorCode.NOT_SESSION_MEMBER);
+        }
+
+        List<Story> stories = imageFiles.stream()
+                .map(imageFile -> {
+                    Image image = imageStorageService.storeImage(imageFile, FileUploadPath.STORY);
+                    return new Story(null, image, user, session);
+                })
+                .collect(Collectors.toList());
+
+        stories = storyRepository.saveAll(stories);
+
+        return StoryBulkCreateResponse.from(stories, storageUrl);
+
     }
 
     public StoryResponse findStoryById(Long id) {

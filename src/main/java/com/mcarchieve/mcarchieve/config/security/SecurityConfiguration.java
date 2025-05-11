@@ -60,6 +60,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(
                         auth -> auth
                                 .requestMatchers("/v1/auth/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/v1/stats/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/v1/servers/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/v1/sessions/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/v1/stories/**").permitAll()

@@ -1,0 +1,16 @@
+meta {
+  name: Create Stories
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{URL}}/v1/sessions/3/stories/bulk
+  body: multipartForm
+  auth: inherit
+}
+
+body:multipart-form {
+  files: @file(/Users/wibaek/Library/Mobile Documents/com~apple~CloudDocs/Downloads/dummy images/pocketmon.jpg)
+  files: @file(/Users/wibaek/Library/Mobile Documents/com~apple~CloudDocs/Downloads/dummy images/solid-connection.png)
+}
