@@ -1,7 +1,11 @@
 package com.mcarchieve.mcarchieve.controller;
 
 import com.mcarchieve.mcarchieve.domain.user.User;
-import com.mcarchieve.mcarchieve.dto.session.*;
+import com.mcarchieve.mcarchieve.dto.session.SessionCreateRequest;
+import com.mcarchieve.mcarchieve.dto.session.SessionJoinApplicationsResponse;
+import com.mcarchieve.mcarchieve.dto.session.SessionResponse;
+import com.mcarchieve.mcarchieve.dto.session.StoryBulkCreateResponse;
+import com.mcarchieve.mcarchieve.dto.session.StoryResponse;
 import com.mcarchieve.mcarchieve.exception.CustomException;
 import com.mcarchieve.mcarchieve.exception.ErrorCode;
 import com.mcarchieve.mcarchieve.repository.UserRepository;
@@ -13,7 +17,13 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
@@ -113,27 +123,5 @@ public class SessionController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/{sessionId}/join-applications/{applicationId}/approve")
-    public ResponseEntity<?> approveJoinRequest(
-            @PathVariable Long sessionId,
-            @PathVariable Long applicationId,
-            Principal principal) {
-        User requester = userRepository.findByEmail(principal.getName())
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        sessionJoinService.approveJoinRequest(applicationId, requester);
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/{sessionId}/join-applications/{applicationId}/reject")
-    public ResponseEntity<?> rejectJoinRequest(
-            @PathVariable Long sessionId,
-            @PathVariable Long applicationId,
-            Principal principal) {
-        User requester = userRepository.findByEmail(principal.getName())
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-
-        sessionJoinService.rejectJoinRequest(applicationId, requester);
-        return ResponseEntity.ok().build();
-    }
 }
