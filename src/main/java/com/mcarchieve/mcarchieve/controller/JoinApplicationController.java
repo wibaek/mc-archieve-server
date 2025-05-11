@@ -22,9 +22,8 @@ public class JoinApplicationController {
     private final SessionJoinService sessionJoinService;
     private final UserRepository userRepository;
 
-    @PostMapping("/join-applications/{applicationId}/approve")
+    @PostMapping("/{applicationId}/approve")
     public ResponseEntity<?> approveJoinRequest(
-            @PathVariable Long sessionId,
             @PathVariable Long applicationId,
             Principal principal) {
         User requester = userRepository.findByEmail(principal.getName())
@@ -34,9 +33,8 @@ public class JoinApplicationController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/join-applications/{applicationId}/reject")
+    @PostMapping("/{applicationId}/reject")
     public ResponseEntity<?> rejectJoinRequest(
-            @PathVariable Long sessionId,
             @PathVariable Long applicationId,
             Principal principal) {
         User requester = userRepository.findByEmail(principal.getName())
