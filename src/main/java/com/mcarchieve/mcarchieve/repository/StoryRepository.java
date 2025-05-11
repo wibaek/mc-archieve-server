@@ -8,6 +8,8 @@ import java.util.List;
 
 @Repository
 public interface StoryRepository extends JpaRepository<Story, Long> {
-
+    
     List<Story> findBySessionId(Long sessionId);
+
+    Long countBy();
 }
