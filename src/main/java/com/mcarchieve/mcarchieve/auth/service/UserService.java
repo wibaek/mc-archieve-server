@@ -1,12 +1,12 @@
-package com.mcarchieve.mcarchieve.service;
+package com.mcarchieve.mcarchieve.auth.service;
 
-import com.mcarchieve.mcarchieve.domain.user.Password;
-import com.mcarchieve.mcarchieve.domain.user.User;
-import com.mcarchieve.mcarchieve.dto.auth.EmailSignUpRequest;
+import com.mcarchieve.mcarchieve.auth.domain.Password;
+import com.mcarchieve.mcarchieve.auth.domain.User;
+import com.mcarchieve.mcarchieve.auth.dto.EmailSignUpRequest;
 import com.mcarchieve.mcarchieve.dto.user.MyInfoResponse;
 import com.mcarchieve.mcarchieve.exception.CustomException;
 import com.mcarchieve.mcarchieve.exception.ErrorCode;
-import com.mcarchieve.mcarchieve.repository.UserRepository;
+import com.mcarchieve.mcarchieve.auth.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

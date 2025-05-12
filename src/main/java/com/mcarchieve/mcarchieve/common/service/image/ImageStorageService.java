@@ -1,6 +1,6 @@
-package com.mcarchieve.mcarchieve.service.image;
+package com.mcarchieve.mcarchieve.common.service.image;
 
-import com.mcarchieve.mcarchieve.domain.Image;
+import com.mcarchieve.mcarchieve.common.entity.Image;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface ImageStorageService {

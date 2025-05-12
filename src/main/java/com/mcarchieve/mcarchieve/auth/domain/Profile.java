@@ -1,6 +1,6 @@
-package com.mcarchieve.mcarchieve.domain.user;
+package com.mcarchieve.mcarchieve.auth.domain;
 
-import com.mcarchieve.mcarchieve.domain.Image;
+import com.mcarchieve.mcarchieve.common.entity.Image;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

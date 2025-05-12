@@ -1,6 +1,6 @@
 package com.mcarchieve.mcarchieve.controller;
 
-import com.mcarchieve.mcarchieve.domain.user.User;
+import com.mcarchieve.mcarchieve.auth.domain.User;
 import com.mcarchieve.mcarchieve.dto.session.SessionCreateRequest;
 import com.mcarchieve.mcarchieve.dto.session.SessionJoinApplicationsResponse;
 import com.mcarchieve.mcarchieve.dto.session.SessionResponse;
@@ -8,7 +8,7 @@ import com.mcarchieve.mcarchieve.dto.session.StoryBulkCreateResponse;
 import com.mcarchieve.mcarchieve.dto.session.StoryResponse;
 import com.mcarchieve.mcarchieve.exception.CustomException;
 import com.mcarchieve.mcarchieve.exception.ErrorCode;
-import com.mcarchieve.mcarchieve.repository.UserRepository;
+import com.mcarchieve.mcarchieve.auth.repository.UserRepository;
 import com.mcarchieve.mcarchieve.service.SessionJoinService;
 import com.mcarchieve.mcarchieve.service.SessionService;
 import com.mcarchieve.mcarchieve.service.StoryService;

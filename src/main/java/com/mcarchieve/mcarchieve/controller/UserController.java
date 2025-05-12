@@ -1,7 +1,7 @@
 package com.mcarchieve.mcarchieve.controller;
 
 import com.mcarchieve.mcarchieve.dto.user.MyInfoResponse;
-import com.mcarchieve.mcarchieve.service.UserService;
+import com.mcarchieve.mcarchieve.auth.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

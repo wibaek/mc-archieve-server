@@ -1,4 +1,4 @@
-package com.mcarchieve.mcarchieve.service;
+package com.mcarchieve.mcarchieve.auth.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

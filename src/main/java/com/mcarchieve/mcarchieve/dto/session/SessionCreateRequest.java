@@ -1,7 +1,7 @@
 package com.mcarchieve.mcarchieve.dto.session;
 
 import com.mcarchieve.mcarchieve.domain.session.Session;
-import com.mcarchieve.mcarchieve.domain.user.User;
+import com.mcarchieve.mcarchieve.auth.domain.User;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;

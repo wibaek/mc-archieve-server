@@ -1,24 +1,27 @@
-package com.mcarchieve.mcarchieve.controller;
+package com.mcarchieve.mcarchieve.auth;
 
-import com.mcarchieve.mcarchieve.domain.user.User;
-import com.mcarchieve.mcarchieve.dto.auth.EmailLoginRequest;
-import com.mcarchieve.mcarchieve.dto.auth.EmailSignUpRequest;
-import com.mcarchieve.mcarchieve.dto.auth.LoginResponse;
+import com.mcarchieve.mcarchieve.auth.domain.User;
+import com.mcarchieve.mcarchieve.auth.dto.EmailLoginRequest;
+import com.mcarchieve.mcarchieve.auth.dto.EmailSignUpRequest;
+import com.mcarchieve.mcarchieve.auth.dto.LoginResponse;
 import com.mcarchieve.mcarchieve.dto.user.ProfileResponse;
 import com.mcarchieve.mcarchieve.exception.CustomException;
 import com.mcarchieve.mcarchieve.exception.ErrorCode;
-import com.mcarchieve.mcarchieve.service.JwtService;
-import com.mcarchieve.mcarchieve.service.UserService;
+import com.mcarchieve.mcarchieve.auth.service.JwtService;
+import com.mcarchieve.mcarchieve.auth.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/v1/auth")
@@ -27,7 +30,7 @@ public class AuthController {
 
     private final JwtService jwtService;
     private final UserService userService;
-//    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    //    private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final AuthenticationManager authenticationManager;
 
     @PostMapping("/login")

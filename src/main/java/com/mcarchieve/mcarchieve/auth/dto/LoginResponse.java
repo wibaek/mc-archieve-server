@@ -1,4 +1,4 @@
-package com.mcarchieve.mcarchieve.dto.auth;
+package com.mcarchieve.mcarchieve.auth.dto;
 
 public record LoginResponse(
         String accessToken

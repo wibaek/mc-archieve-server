@@ -1,4 +1,4 @@
-package com.mcarchieve.mcarchieve.domain.user;
+package com.mcarchieve.mcarchieve.auth.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

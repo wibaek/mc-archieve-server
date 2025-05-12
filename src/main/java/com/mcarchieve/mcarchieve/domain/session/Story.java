@@ -1,8 +1,8 @@
 package com.mcarchieve.mcarchieve.domain.session;
 
-import com.mcarchieve.mcarchieve.domain.BaseEntity;
-import com.mcarchieve.mcarchieve.domain.Image;
-import com.mcarchieve.mcarchieve.domain.user.User;
+import com.mcarchieve.mcarchieve.common.entity.BaseEntity;
+import com.mcarchieve.mcarchieve.common.entity.Image;
+import com.mcarchieve.mcarchieve.auth.domain.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

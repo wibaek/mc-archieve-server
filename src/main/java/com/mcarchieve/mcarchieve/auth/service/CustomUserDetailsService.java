@@ -1,7 +1,7 @@
-package com.mcarchieve.mcarchieve.service;
+package com.mcarchieve.mcarchieve.auth.service;
 
-import com.mcarchieve.mcarchieve.domain.user.User;
-import com.mcarchieve.mcarchieve.repository.UserRepository;
+import com.mcarchieve.mcarchieve.auth.domain.User;
+import com.mcarchieve.mcarchieve.auth.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

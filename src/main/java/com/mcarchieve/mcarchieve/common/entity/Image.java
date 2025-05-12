@@ -1,4 +1,4 @@
-package com.mcarchieve.mcarchieve.domain;
+package com.mcarchieve.mcarchieve.common.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

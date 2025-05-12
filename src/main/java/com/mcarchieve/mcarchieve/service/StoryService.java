@@ -1,17 +1,17 @@
 package com.mcarchieve.mcarchieve.service;
 
-import com.mcarchieve.mcarchieve.domain.Image;
+import com.mcarchieve.mcarchieve.common.entity.Image;
 import com.mcarchieve.mcarchieve.domain.session.Session;
 import com.mcarchieve.mcarchieve.domain.session.Story;
-import com.mcarchieve.mcarchieve.domain.user.User;
+import com.mcarchieve.mcarchieve.auth.domain.User;
 import com.mcarchieve.mcarchieve.dto.session.StoryBulkCreateResponse;
 import com.mcarchieve.mcarchieve.dto.session.StoryResponse;
 import com.mcarchieve.mcarchieve.exception.CustomException;
 import com.mcarchieve.mcarchieve.exception.ErrorCode;
 import com.mcarchieve.mcarchieve.repository.SessionRepository;
 import com.mcarchieve.mcarchieve.repository.StoryRepository;
-import com.mcarchieve.mcarchieve.service.image.FileUploadPath;
-import com.mcarchieve.mcarchieve.service.image.ImageStorageService;
+import com.mcarchieve.mcarchieve.common.service.image.FileUploadPath;
+import com.mcarchieve.mcarchieve.common.service.image.ImageStorageService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,13 +1,14 @@
 package com.mcarchieve.mcarchieve.service;
 
-import com.mcarchieve.mcarchieve.domain.user.LoginType;
-import com.mcarchieve.mcarchieve.domain.user.Password;
-import com.mcarchieve.mcarchieve.domain.user.User;
-import com.mcarchieve.mcarchieve.dto.auth.EmailSignUpRequest;
+import com.mcarchieve.mcarchieve.auth.domain.LoginType;
+import com.mcarchieve.mcarchieve.auth.domain.Password;
+import com.mcarchieve.mcarchieve.auth.domain.User;
+import com.mcarchieve.mcarchieve.auth.dto.EmailSignUpRequest;
+import com.mcarchieve.mcarchieve.auth.service.UserService;
 import com.mcarchieve.mcarchieve.dto.user.MyInfoResponse;
 import com.mcarchieve.mcarchieve.exception.CustomException;
 import com.mcarchieve.mcarchieve.exception.ErrorCode;
-import com.mcarchieve.mcarchieve.repository.UserRepository;
+import com.mcarchieve.mcarchieve.auth.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

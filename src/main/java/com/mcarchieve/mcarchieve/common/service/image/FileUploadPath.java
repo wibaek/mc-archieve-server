@@ -1,4 +1,4 @@
-package com.mcarchieve.mcarchieve.service.image;
+package com.mcarchieve.mcarchieve.common.service.image;
 
 public enum FileUploadPath {
     STORY("story/"),

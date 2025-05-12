@@ -1,6 +1,6 @@
 package com.mcarchieve.mcarchieve.config.security;
 
-import com.mcarchieve.mcarchieve.service.JwtService;
+import com.mcarchieve.mcarchieve.auth.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

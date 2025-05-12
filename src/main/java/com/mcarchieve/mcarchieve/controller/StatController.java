@@ -3,7 +3,7 @@ package com.mcarchieve.mcarchieve.controller;
 import com.mcarchieve.mcarchieve.dto.stat.StatResponse;
 import com.mcarchieve.mcarchieve.repository.SessionRepository;
 import com.mcarchieve.mcarchieve.repository.StoryRepository;
-import com.mcarchieve.mcarchieve.repository.UserRepository;
+import com.mcarchieve.mcarchieve.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,6 +1,6 @@
-package com.mcarchieve.mcarchieve.repository;
+package com.mcarchieve.mcarchieve.auth.repository;
 
-import com.mcarchieve.mcarchieve.domain.user.Profile;
+import com.mcarchieve.mcarchieve.auth.domain.Profile;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
