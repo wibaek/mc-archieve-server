@@ -1,8 +1,8 @@
 package com.mcarchieve.mcarchieve.repository;
 
-import com.mcarchieve.mcarchieve.domain.session.MemberStatus;
-import com.mcarchieve.mcarchieve.domain.session.Session;
-import com.mcarchieve.mcarchieve.domain.session.SessionMember;
+import com.mcarchieve.mcarchieve.session.domain.MemberStatus;
+import com.mcarchieve.mcarchieve.session.domain.Session;
+import com.mcarchieve.mcarchieve.session.domain.SessionMember;
 import com.mcarchieve.mcarchieve.auth.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

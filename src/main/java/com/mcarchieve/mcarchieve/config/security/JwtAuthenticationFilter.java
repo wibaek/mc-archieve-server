@@ -13,7 +13,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-import static com.mcarchieve.mcarchieve.util.JwtUtils.resolveTokenFromHeader;
+import static com.mcarchieve.mcarchieve.common.util.JwtUtils.resolveTokenFromHeader;
 
 @Component
 @RequiredArgsConstructor
